@@ -67,8 +67,8 @@ module CarrierWave
           aws_file = new_file.to_file
 
           @file = bucket.objects[path].write(aws_file, {
-            content_type: aws_file.content_type,
-            acl: uploader.aws_acl
+            acl: uploader.aws_acl,
+            content_type: new_file.content_type
           }.merge(uploader.aws_attributes))
 
           aws_file.close unless aws_file.closed?
