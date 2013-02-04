@@ -19,7 +19,9 @@ Here is a simple comparison table [02/04/2013]
 
 Add this line to your application's Gemfile:
 
-    gem 'carrierwave-aws'
+```ruby
+gem 'carrierwave-aws'
+```
 
 ## Usage
 
