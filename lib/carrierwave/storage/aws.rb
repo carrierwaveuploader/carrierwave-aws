@@ -77,11 +77,11 @@ module CarrierWave
         end
 
         def authenticated_url
-          file.url_for(:read, expires: uploader.aws_authenticated_url_expiration)
+          file.url_for(:read, expires: uploader.aws_authenticated_url_expiration).to_s
         end
 
         def public_url
-          file.public_url
+          file.public_url.to_s
         end
 
         def url(options = {})
