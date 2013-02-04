@@ -1,5 +1,7 @@
 # Carrierwave AWS Storage
 
+[![Build Status](https://travis-ci.org/sorentwo/carrierwave-aws.png?branch=master)](https://travis-ci.org/sorentwo/carrierwave-aws)
+
 Use the officially supported AWS-SDK library for S3 storage rather than relying
 on fog. There are several things going for it:
 
