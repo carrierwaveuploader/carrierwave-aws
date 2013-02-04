@@ -1,3 +1,5 @@
+require 'aws/s3'
+
 module CarrierWave
   module Storage
     class AWS < Abstract
@@ -64,7 +66,7 @@ module CarrierWave
         def store(new_file)
           aws_file = new_file.to_file
 
-          @file.bucket.objects[path].write(aws_file, {
+          @file = bucket.objects[path].write(aws_file, {
             content_type: aws_file.content_type,
             acl: uploader.aws_acl
           }.merge(uploader.aws_attributes))
