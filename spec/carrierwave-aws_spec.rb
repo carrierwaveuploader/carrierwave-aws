@@ -1,4 +1,4 @@
-require 'carrierwave-aws'
+require 'spec_helper'
 
 describe CarrierWave::Uploader::Base do
   it 'defines aws specific storage options' do
