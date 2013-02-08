@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.email         = ['parker@sorentwo.com']
   gem.description   = %q{Use aws-sdk for S3 support in CarrierWave}
   gem.summary       = %q{A slimmer alternative to using Fog for S3 support in CarrierWave}
-  gem.homepage      = "https://github.com/sorentwo/carrierwave-aws-sdk"
+  gem.homepage      = 'https://github.com/sorentwo/carrierwave-aws'
 
   gem.files         = `git ls-files`.split($/)
   gem.test_files    = gem.files.grep(%r{^(spec)/})
