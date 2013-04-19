@@ -8,13 +8,13 @@ module CarrierWave
       end
 
       def store!(file)
-        File.new(uploader, self, uploader.store_path).tap do |aws_file|
+        File.new(uploader, connection, uploader.store_path).tap do |aws_file|
           aws_file.store(file)
         end
       end
 
       def retrieve!(identifier)
-        File.new(uploader, self, uploader.store_path(identifier))
+        File.new(uploader, connection, uploader.store_path(identifier))
       end
 
       def connection
@@ -25,10 +25,12 @@ module CarrierWave
       end
 
       class File
-        attr_reader :uploader, :base, :path
+        attr_reader :uploader, :connection, :path
 
-        def initialize(uploader, base, path)
-          @uploader, @base, @path = uploader, base, path
+        def initialize(uploader, connection, path)
+          @uploader   = uploader
+          @connection = connection
+          @path       = path
         end
 
         def attributes
@@ -99,10 +101,6 @@ module CarrierWave
         end
 
         private
-
-        def connection
-          base.connection
-        end
 
         def bucket
           @bucket ||= connection.buckets[uploader.aws_bucket]
