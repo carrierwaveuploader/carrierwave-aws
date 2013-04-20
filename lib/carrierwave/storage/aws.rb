@@ -33,6 +33,10 @@ module CarrierWave
           @path       = path
         end
 
+        def to_file
+          file
+        end
+
         def attributes
           file.attributes
         end

@@ -41,6 +41,12 @@ describe CarrierWave::Storage::AWS::File do
     end
   end
 
+  describe '#to_file' do
+    it 'returns the internal file instance' do
+      aws_file.to_file.should be(file)
+    end
+  end
+
   describe '#authenticated_url' do
     it 'requests a url for reading with the configured expiration' do
       uploader.stub(aws_authenticated_url_expiration: 60)
