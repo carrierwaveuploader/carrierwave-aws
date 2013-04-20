@@ -1,12 +1,17 @@
-=== Version 0.2.0 2013-04-19
+## Version 0.2.1 2013-04-20
+
+* Provide a `to_file` method on AWS::File in an attempt to prevent errors when
+  re-uploading a cached file.
+
+## Version 0.2.0 2013-04-19
 
 * Update aws-sdk depdendency to 1.8.5
 * Clean up some internal storage object passing
 
-=== Version 0.1.1 2013-04-09
+## Version 0.1.1 2013-04-09
 
 * Fix storage bug when if `aws_attributes` is blank [#1]
 
-=== Version 0.1.0 2013-02-04
+## Version 0.1.0 2013-02-04
 
 * Initial release, experimental with light expectation based spec coverage.
