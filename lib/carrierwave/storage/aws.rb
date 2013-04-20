@@ -25,16 +25,13 @@ module CarrierWave
       end
 
       class File
+        attr_writer :content_type
         attr_reader :uploader, :connection, :path
 
         def initialize(uploader, connection, path)
           @uploader   = uploader
           @connection = connection
           @path       = path
-        end
-
-        def to_file
-          file
         end
 
         def attributes
@@ -45,10 +42,6 @@ module CarrierWave
           @content_type || file.content_type
         end
 
-        def content_type=(new_content_type)
-          @content_type = new_content_type
-        end
-
         def delete
           file.delete
         end
@@ -57,16 +50,22 @@ module CarrierWave
           path.split('.').last
         end
 
+        def exists?
+          !!file
+        end
+
+        def filename(options = {})
+          if file_url = url(options)
+            file_url.gsub(/.*\/(.*?$)/, '\1')
+          end
+        end
+
         def read
           file.read
         end
 
         def size
           file.content_length
-        end
-
-        def exists?
-          !!file
         end
 
         def store(new_file)
@@ -82,12 +81,8 @@ module CarrierWave
           true
         end
 
-        def authenticated_url
-          file.url_for(:read, expires: uploader.aws_authenticated_url_expiration).to_s
-        end
-
-        def public_url
-          file.public_url.to_s
+        def to_file
+          file
         end
 
         def url(options = {})
@@ -98,10 +93,12 @@ module CarrierWave
           end
         end
 
-        def filename(options = {})
-          if file_url = url(options)
-            file_url.gsub(/.*\/(.*?$)/, '\1')
-          end
+        def authenticated_url
+          file.url_for(:read, expires: uploader.aws_authenticated_url_expiration).to_s
+        end
+
+        def public_url
+          file.public_url.to_s
         end
 
         private
