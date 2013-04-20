@@ -5,7 +5,11 @@ describe CarrierWave::Storage::AWS do
   let(:uploader)    { mock(:uploader, aws_credentials: credentials) }
 
   subject(:storage) do
-    described_class.new(uploader)
+    CarrierWave::Storage::AWS.new(uploader)
+  end
+
+  before do
+    CarrierWave::Storage::AWS.clear_connection_cache!
   end
 
   describe '#connection' do
@@ -32,7 +36,7 @@ describe CarrierWave::Storage::AWS::File do
   let(:path)       { 'files/1/file.txt' }
 
   subject(:aws_file) do
-    described_class.new(uploader, connection, path)
+    CarrierWave::Storage::AWS::File.new(uploader, connection, path)
   end
 
   describe '#read' do

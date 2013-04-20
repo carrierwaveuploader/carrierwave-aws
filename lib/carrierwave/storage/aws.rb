@@ -7,6 +7,10 @@ module CarrierWave
         @connection_cache ||= {}
       end
 
+      def self.clear_connection_cache!
+        @connection_cache = {}
+      end
+
       def store!(file)
         File.new(uploader, connection, uploader.store_path).tap do |aws_file|
           aws_file.store(file)
