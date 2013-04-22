@@ -55,7 +55,9 @@ config.aws_credentials = {
 }
 ```
 
-`AWS.config` will return `AWS::Core::Configuration` object which is used through `aws-sdk` gem. Browse [Amazon docs](http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/Core/Configuration.html) for additional info. For example, if you want to turn off SSL for your asset URLs, you could simply set `AWS.config(use_ssl: false)`.
+`AWS.config` will return `AWS::Core::Configuration` object which is used through `aws-sdk` gem. Browse
+[Amazon docs](http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/Core/Configuration.html) for additional info. For
+example, if you want to turn off SSL for your asset URLs, you could simply set `AWS.config(use_ssl: false)`.
 
 ## Contributing
 
