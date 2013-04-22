@@ -45,6 +45,18 @@ CarrierWave.configure do |config|
 end
 ```
 
+If you want to supply your own AWS configuration, put it inside `config.aws_credentials` like this:
+
+```ruby
+config.aws_credentials = {
+  access_key_id:     ENV['AWS_ACCESS_KEY_ID'],
+  secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+  config: AWS.config(my_aws_options)
+}
+```
+
+`AWS.config` will return `AWS::Core::Configuration` object which is used through `aws-sdk` gem. Browse [Amazon docs](http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/Core/Configuration.html) for additional info. For example, if you want to turn off SSL for your asset URLs, you could simply set `AWS.config(use_ssl: false)`.
+
 ## Contributing
 
 1. Fork it
