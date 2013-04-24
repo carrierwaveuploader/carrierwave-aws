@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe CarrierWave::Storage::AWS do
-  let(:credentials) { { access_key_id: 'abc', secret_access_key: '123' } }
-  let(:uploader)    { mock(:uploader, aws_credentials: credentials) }
+  let(:credentials) { { :access_key_id =>  'abc', :secret_access_key => '123' } }
+  let(:uploader)    { mock(:uploader, :aws_credentials => credentials) }
 
   subject(:storage) do
     CarrierWave::Storage::AWS.new(uploader)
@@ -29,10 +29,10 @@ end
 
 describe CarrierWave::Storage::AWS::File do
   let(:objects)    { { 'files/1/file.txt' => file } }
-  let(:bucket)     { mock(:bucket, objects: objects) }
-  let(:connection) { mock(:connection, buckets: { 'example-com' => bucket }) }
-  let(:file)       { mock(:file, read: '0101010') }
-  let(:uploader)   { mock(:uploader, aws_bucket: 'example-com') }
+  let(:bucket)     { mock(:bucket, :objects =>  objects) }
+  let(:connection) { mock(:connection, :buckets => { 'example-com' => bucket }) }
+  let(:file)       { mock(:file, :read => '0101010') }
+  let(:uploader)   { mock(:uploader, :aws_bucket => 'example-com') }
   let(:path)       { 'files/1/file.txt' }
 
   subject(:aws_file) do
@@ -53,9 +53,9 @@ describe CarrierWave::Storage::AWS::File do
 
   describe '#authenticated_url' do
     it 'requests a url for reading with the configured expiration' do
-      uploader.stub(aws_authenticated_url_expiration: 60)
+      uploader.stub(:aws_authenticated_url_expiration =>  60)
 
-      file.should_receive(:url_for).with(:read, expires: 60)
+      file.should_receive(:url_for).with(:read, :expires => 60)
 
       aws_file.authenticated_url
     end
@@ -63,14 +63,14 @@ describe CarrierWave::Storage::AWS::File do
 
   describe '#url' do
     it 'requests a public url if acl is public readable' do
-      uploader.stub(aws_acl: :public_read)
+      uploader.stub(:aws_acl =>  :public_read)
       file.should_receive(:public_url)
 
       aws_file.url
     end
 
     it 'requests an authenticated url if acl is not public readable' do
-      uploader.stub(aws_acl: :private, aws_authenticated_url_expiration: 60)
+      uploader.stub(:aws_acl => :private, :aws_authenticated_url_expiration =>  60)
 
       file.should_receive(:url_for)
 

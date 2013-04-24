@@ -76,8 +76,8 @@ module CarrierWave
           aws_file = new_file.to_file
 
           @file = bucket.objects[path].write(aws_file, {
-            acl: uploader.aws_acl,
-            content_type: new_file.content_type
+            :acl =>  uploader.aws_acl,
+            :content_type => new_file.content_type
           }.merge(uploader.aws_attributes || {}))
 
           aws_file.close unless aws_file.closed?
@@ -98,7 +98,7 @@ module CarrierWave
         end
 
         def authenticated_url
-          file.url_for(:read, expires: uploader.aws_authenticated_url_expiration).to_s
+          file.url_for(:read, :expires => uploader.aws_authenticated_url_expiration).to_s
         end
 
         def public_url
