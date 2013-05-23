@@ -45,7 +45,8 @@ CarrierWave.configure do |config|
 end
 ```
 
-If you want to supply your own AWS configuration, put it inside `config.aws_credentials` like this:
+If you want to supply your own AWS configuration, put it inside
+`config.aws_credentials` like this:
 
 ```ruby
 config.aws_credentials = {
@@ -55,11 +56,20 @@ config.aws_credentials = {
 }
 ```
 
-`AWS.config` will return `AWS::Core::Configuration` object which is used through `aws-sdk` gem. Browse
-[Amazon docs](http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/Core/Configuration.html) for additional info. For
-example, if you want to turn off SSL for your asset URLs, you could simply set `AWS.config(use_ssl: false)`.
+`AWS.config` will return `AWS::Core::Configuration` object which is used
+through `aws-sdk` gem. Browse [Amazon docs](http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/Core/Configuration.html)
+for additional info. For example, if you want to turn off SSL for your asset
+URLs, you could simply set `AWS.config(use_ssl: false)`.
 
 ## Contributing
+
+In order to run the integration specs you will need to configure some
+environment variables. A sample file is provided as `.env.sample`. Copy it over
+and plug in the appropriate values.
+
+```bash
+cp .env.sample .env
+```
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
