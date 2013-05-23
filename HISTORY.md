@@ -1,3 +1,8 @@
+## Version 0.3.0 2013-05-23
+
+* Pass the file path directly to aws-sdk to prevent upload timeouts stemming
+  incorrect `content_length`.
+
 ## Version 0.2.1 2013-04-20
 
 * Provide a `to_file` method on AWS::File in an attempt to prevent errors when
