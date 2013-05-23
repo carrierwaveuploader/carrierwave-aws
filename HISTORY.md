@@ -1,3 +1,8 @@
+## Version 0.3.1 2013-05-23
+
+* Use the "alternate" object writing syntax. The primary method (as documented)
+  only uploads the path itself rather than the file.
+
 ## Version 0.3.0 2013-05-23
 
 * Pass the file path directly to aws-sdk to prevent upload timeouts stemming
