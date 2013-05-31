@@ -99,7 +99,11 @@ module CarrierWave
         end
 
         def public_url
-          file.public_url.to_s
+          if uploader.asset_host
+            "#{uploader.asset_host}/#{path}"
+          else
+            file.public_url.to_s
+          end
         end
 
         private

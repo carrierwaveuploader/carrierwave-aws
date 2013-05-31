@@ -32,7 +32,7 @@ describe CarrierWave::Storage::AWS::File do
   let(:bucket)     { mock(:bucket, objects: objects) }
   let(:connection) { mock(:connection, buckets: { 'example-com' => bucket }) }
   let(:file)       { mock(:file, read: '0101010') }
-  let(:uploader)   { mock(:uploader, aws_bucket: 'example-com') }
+  let(:uploader)   { mock(:uploader, aws_bucket: 'example-com', asset_host: nil) }
   let(:path)       { 'files/1/file.txt' }
 
   subject(:aws_file) do
@@ -75,6 +75,13 @@ describe CarrierWave::Storage::AWS::File do
       file.should_receive(:url_for)
 
       aws_file.url
+    end
+
+    it 'uses the asset_host and file path if asset_host is set' do
+      uploader.stub(aws_acl: :public_read)
+      uploader.stub(asset_host: 'http://example.com')
+
+      aws_file.url.should eql 'http://example.com/files/1/file.txt'
     end
   end
 end
