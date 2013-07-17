@@ -13,12 +13,12 @@ on fog. There are several things going for it:
 * Fewer dependencies
 * Clear documentation
 
-Here is a simple comparison table [02/04/2013]
+Here is a simple comparison table [07/17/2013]
 
 | Library | Disk Space | Lines of Code | Boot Time | Runtime Deps | Develop Deps |
 | ------- | ---------- | ------------- | --------- | ------------ | ------------ |
 | fog     | 28.0M      | 133469        | 0.693     | 9            | 11           |
-| aws-sdk | 4.4M       |  80017        | 0.098     | 3            | 8            |
+| aws-sdk | 5.4M       |  90290        | 0.098     | 3            | 8            |
 
 ## Installation
 
