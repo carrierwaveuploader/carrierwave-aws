@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CarrierWave::Storage::AWS do
   let(:credentials) { { access_key_id: 'abc', secret_access_key: '123' } }
-  let(:uploader)    { mock(:uploader, aws_credentials: credentials) }
+  let(:uploader)    { double(:uploader, aws_credentials: credentials) }
 
   subject(:storage) do
     CarrierWave::Storage::AWS.new(uploader)
@@ -20,7 +20,7 @@ describe CarrierWave::Storage::AWS do
     end
 
     it 'caches connections by credentials' do
-      AWS::S3.should_receive(:new).with(credentials).and_return(mock)
+      AWS::S3.should_receive(:new).with(credentials).and_return(double)
 
       storage.connection.should === storage.connection
     end
@@ -29,10 +29,10 @@ end
 
 describe CarrierWave::Storage::AWS::File do
   let(:objects)    { { 'files/1/file.txt' => file } }
-  let(:bucket)     { mock(:bucket, objects: objects) }
-  let(:connection) { mock(:connection, buckets: { 'example-com' => bucket }) }
-  let(:file)       { mock(:file, read: '0101010') }
-  let(:uploader)   { mock(:uploader, aws_bucket: 'example-com', asset_host: nil) }
+  let(:bucket)     { double(:bucket, objects: objects) }
+  let(:connection) { double(:connection, buckets: { 'example-com' => bucket }) }
+  let(:file)       { double(:file, read: '0101010') }
+  let(:uploader)   { double(:uploader, aws_bucket: 'example-com', asset_host: nil) }
   let(:path)       { 'files/1/file.txt' }
 
   subject(:aws_file) do
