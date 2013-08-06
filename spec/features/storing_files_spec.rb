@@ -16,14 +16,18 @@ if ENV['S3_BUCKET_NAME']
     end
 
     it 'uploads the file to the configured bucket' do
+      uploader = Class.new(CarrierWave::Uploader::Base) do
+        def filename; 'image.png'; end
+      end
+
       image    = File.open('spec/fixtures/image.png', 'r')
-      uploader = Class.new(CarrierWave::Uploader::Base)
       instance = uploader.new
 
-      expect {
-        instance.store!(image)
-        instance.retrieve_from_store!('image_file.png')
-      }.to_not raise_error
+      instance.store!(image)
+      instance.retrieve_from_store!('image.png')
+
+      expect(instance.file.size).to be_nonzero
+      expect(image.size).to eq(instance.file.size)
     end
   end
 end

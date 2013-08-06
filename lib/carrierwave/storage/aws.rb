@@ -76,7 +76,7 @@ module CarrierWave
           @file = bucket.objects[path].write({
             acl:          uploader.aws_acl,
             content_type: new_file.content_type,
-            file:         new_file.file
+            file:         new_file.path
           }.merge(uploader.aws_attributes || {}))
 
           true
