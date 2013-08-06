@@ -1,3 +1,8 @@
+## Version 0.3.2 2013-08-06
+
+* And we're back to passing the path. An updated integration test confirms it
+  is working properly.
+
 ## Version 0.3.1 2013-05-23
 
 * Use the "alternate" object writing syntax. The primary method (as documented)
