@@ -32,7 +32,7 @@ describe CarrierWave::Storage::AWS::File do
   let(:bucket)     { double(:bucket, objects: objects) }
   let(:connection) { double(:connection, buckets: { 'example-com' => bucket }) }
   let(:file)       { double(:file, read: '0101010') }
-  let(:uploader)   { double(:uploader, aws_bucket: 'example-com', asset_host: nil) }
+  let(:uploader)   { double(:uploader, aws_bucket: 'example-com', asset_host: nil, aws_read_options: { encryption_key: 'abc' }, aws_write_options: { encryption_key: 'def' }) }
   let(:path)       { 'files/1/file.txt' }
 
   subject(:aws_file) do
@@ -42,6 +42,22 @@ describe CarrierWave::Storage::AWS::File do
   describe '#read' do
     it 'reads from the remote file object' do
       aws_file.read.should == '0101010'
+    end
+
+    it 'sends options to S3Object#read' do
+      file.should_receive(:read).with({ encryption_key: 'abc' })
+      aws_file.read
+    end
+  end
+
+  describe '#store' do
+    it 'sends options to S3Object#write' do
+      uploader.stub(aws_acl: :public_read)
+      uploader.stub(aws_attributes: nil)
+      file.stub(content_type: 'content/type')
+      file.stub(path: '/file/path')
+      file.should_receive(:write).with({ acl: :public_read, content_type: 'content/type', file: '/file/path', encryption_key: 'def' })
+      aws_file.store(file)
     end
   end
 

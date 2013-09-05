@@ -65,7 +65,7 @@ module CarrierWave
         end
 
         def read
-          file.read
+          file.read(uploader.aws_read_options || {})
         end
 
         def size
@@ -77,7 +77,7 @@ module CarrierWave
             acl:          uploader.aws_acl,
             content_type: new_file.content_type,
             file:         new_file.path
-          }.merge(uploader.aws_attributes || {}))
+          }.merge(uploader.aws_attributes || {}).merge(uploader.aws_write_options || {}))
 
           true
         end
