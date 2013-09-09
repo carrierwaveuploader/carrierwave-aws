@@ -60,7 +60,7 @@ module CarrierWave
 
         def filename(options = {})
           if file_url = url(options)
-            URI.parse(url).path.gsub(/.*\//, '')
+            URI.parse(file_url).path.gsub(/.*\//, '')
           end
         end
 
