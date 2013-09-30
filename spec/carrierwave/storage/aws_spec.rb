@@ -31,8 +31,8 @@ describe CarrierWave::Storage::AWS::File do
   let(:objects)    { { 'files/1/file.txt' => file } }
   let(:bucket)     { double(:bucket, objects: objects) }
   let(:connection) { double(:connection, buckets: { 'example-com' => bucket }) }
-  let(:file)       { double(:file, read: '0101010') }
-  let(:uploader)   { double(:uploader, aws_bucket: 'example-com', asset_host: nil, aws_read_options: { encryption_key: 'abc' }, aws_write_options: { encryption_key: 'def' }) }
+  let(:file)       { double(:file, read: '0101010', content_type: 'content/type', path: '/file/path') }
+  let(:uploader)   { double(:uploader, aws_bucket: 'example-com', aws_acl: :public_read, aws_attributes: {}, asset_host: nil, aws_read_options: { encryption_key: 'abc' }, aws_write_options: { encryption_key: 'def' }) }
   let(:path)       { 'files/1/file.txt' }
 
   subject(:aws_file) do
@@ -43,21 +43,36 @@ describe CarrierWave::Storage::AWS::File do
     it 'reads from the remote file object' do
       aws_file.read.should == '0101010'
     end
+  end
 
-    it 'sends options to S3Object#read' do
-      file.should_receive(:read).with({ encryption_key: 'abc' })
-      aws_file.read
+  describe '#uploader_write_options' do
+    it 'includes acl, content_type, file, aws_attributes, and aws_write_options' do
+      aws_file.uploader_write_options(file).should == {
+        acl: :public_read,
+        content_type: 'content/type',
+        file: '/file/path',
+        encryption_key: 'def'
+      }
+    end
+
+    it 'works if aws_attributes is nil' do
+      uploader.stub(:aws_attributes) { nil }
+      expect {
+        aws_file.uploader_write_options(file)
+      }.to_not raise_error
+    end
+
+    it 'works if aws_write_options is nil' do
+      uploader.stub(:aws_write_options) { nil }
+      expect {
+        aws_file.uploader_write_options(file)
+      }.to_not raise_error
     end
   end
 
-  describe '#store' do
-    it 'sends options to S3Object#write' do
-      uploader.stub(aws_acl: :public_read)
-      uploader.stub(aws_attributes: nil)
-      file.stub(content_type: 'content/type')
-      file.stub(path: '/file/path')
-      file.should_receive(:write).with({ acl: :public_read, content_type: 'content/type', file: '/file/path', encryption_key: 'def' })
-      aws_file.store(file)
+  describe '#uploader_read_options' do
+    it 'includes aws_read_options' do
+      aws_file.uploader_read_options.should == { encryption_key: 'abc' }
     end
   end
 
