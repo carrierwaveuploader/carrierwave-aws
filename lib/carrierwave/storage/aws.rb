@@ -65,7 +65,7 @@ module CarrierWave
         end
 
         def read
-          file.read
+          file.read(uploader_read_options)
         end
 
         def size
@@ -73,11 +73,7 @@ module CarrierWave
         end
 
         def store(new_file)
-          @file = bucket.objects[path].write({
-            acl:          uploader.aws_acl,
-            content_type: new_file.content_type,
-            file:         new_file.path
-          }.merge(uploader.aws_attributes || {}))
+          @file = bucket.objects[path].write(uploader_write_options(new_file))
 
           true
         end
@@ -104,6 +100,18 @@ module CarrierWave
           else
             file.public_url.to_s
           end
+        end
+
+        def uploader_read_options
+          uploader.aws_read_options
+        end
+
+        def uploader_write_options(new_file)
+          {
+            acl:          uploader.aws_acl,
+            content_type: new_file.content_type,
+            file:         new_file.path
+          }.merge(uploader.aws_attributes || {}).merge(uploader.aws_write_options || {})
         end
 
         private
