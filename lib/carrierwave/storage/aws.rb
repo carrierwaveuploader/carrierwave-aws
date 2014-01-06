@@ -90,6 +90,10 @@ module CarrierWave
           end
         end
 
+        def restore_to(version_id)
+          file.copy_from(file.key, version_id: version_id)
+        end
+
         def to_file
           file
         end
