@@ -78,6 +78,10 @@ module CarrierWave
           true
         end
 
+        def version(version_id)
+          file.versions[version_id]
+        end
+
         def versions
           if file.is_a? ::AWS::S3::ObjectVersion
             [file]
