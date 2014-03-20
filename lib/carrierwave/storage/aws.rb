@@ -84,14 +84,14 @@ module CarrierWave
 
         def url(options = {})
           if uploader.aws_acl != :public_read
-            authenticated_url
+            authenticated_url(options)
           else
             public_url
           end
         end
 
-        def authenticated_url
-          file.url_for(:read, expires: uploader.aws_authenticated_url_expiration).to_s
+        def authenticated_url(options = {})
+          file.url_for(:read, { expires: uploader.aws_authenticated_url_expiration }.merge(options)).to_s
         end
 
         def public_url
