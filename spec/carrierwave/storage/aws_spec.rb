@@ -59,6 +59,14 @@ describe CarrierWave::Storage::AWS::File do
 
       aws_file.authenticated_url
     end
+
+    it 'requests a url for reading with custom options' do
+      uploader.stub(aws_authenticated_url_expiration: 60)
+
+      file.should_receive(:url_for).with(:read, hash_including(response_content_disposition: 'attachment'))
+
+      aws_file.authenticated_url(response_content_disposition: 'attachment')
+    end
   end
 
   describe '#url' do
