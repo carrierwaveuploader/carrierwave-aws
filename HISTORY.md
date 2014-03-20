@@ -1,3 +1,9 @@
+## Version 0.4.0 2013-03-20
+
+* Allow custom options for authenticated urls [Filipe Giusti]
+* Loosen aws-sdk constraints
+* Add `aws_read_options` and `aws_write_options` [Erik Hanson and Greg Woodward]
+
 ## Version 0.3.2 2013-08-06
 
 * And we're back to passing the path. An updated integration test confirms it
