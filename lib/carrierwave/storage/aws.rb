@@ -103,7 +103,7 @@ module CarrierWave
         end
 
         def uploader_read_options
-          uploader.aws_read_options
+          uploader.aws_read_options || {}
         end
 
         def uploader_write_options(new_file)

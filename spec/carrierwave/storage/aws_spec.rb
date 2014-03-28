@@ -74,6 +74,11 @@ describe CarrierWave::Storage::AWS::File do
     it 'includes aws_read_options' do
       aws_file.uploader_read_options.should == { encryption_key: 'abc' }
     end
+
+    it 'ensures that read options are a hash' do
+      uploader.stub(:aws_read_options) { nil }
+      aws_file.uploader_read_options.should == {}
+    end
   end
 
   describe '#to_file' do
