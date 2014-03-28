@@ -1,4 +1,9 @@
-## Version 0.4.0 2013-03-20
+## Version 0.4.1 2014-03-28
+
+* Fix regression in `aws_read_options` defaulting to `nil` rather than an empty
+  hash. [Johannes Würbach]
+
+## Version 0.4.0 2014-03-20
 
 * Allow custom options for authenticated urls [Filipe Giusti]
 * Loosen aws-sdk constraints
