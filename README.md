@@ -65,6 +65,23 @@ through `aws-sdk` gem. Browse [Amazon docs](http://docs.aws.amazon.com/AWSRubySD
 for additional info. For example, if you want to turn off SSL for your asset
 URLs, you could simply set `AWS.config(use_ssl: false)`.
 
+### Custom options for AWS URLs
+
+If you have a custom uploader that specifies additional headers for each URL, please try the following example:
+
+```ruby
+  class MyUploader < Carrierwave::Uploader::Base
+    # You can find full list of custom headers in AWS SDK documentation on
+    # AWS::S3::S3Object
+    def download_url(filename)
+      url(response_content_disposition: %Q{attachment; filename="#{filename}"})
+    end
+  end
+```
+
+If you migrate from `fog` you probably have something like `url(query: {'my-header': 'my-value'})`.
+With `carrierwave-aws` the `query` part becomes obsolete, just use a hash of headers.
+
 ## Contributing
 
 In order to run the integration specs you will need to configure some
