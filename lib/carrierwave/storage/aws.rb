@@ -24,7 +24,10 @@ module CarrierWave
       def connection
         @connection ||= begin
           credentials = uploader.aws_credentials
-          self.class.connection_cache[credentials] ||= ::AWS::S3.new(credentials)
+          # We don't always need credentials, for instance, when using IAM roles
+          # Passing a 'nil' credentials argument will break AWS::S3.new()
+          args = [credentials] ? args : []
+          self.class.connection_cache[credentials] ||= ::AWS::S3.new(*args)
         end
       end
 
