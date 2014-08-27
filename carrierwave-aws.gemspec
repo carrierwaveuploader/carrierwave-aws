@@ -16,8 +16,8 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(spec)/})
   gem.require_paths = ['lib']
 
-  gem.add_dependency 'carrierwave', '>= 0.7'
-  gem.add_dependency 'aws-sdk',     '>= 1.29'
+  gem.add_dependency 'carrierwave', '~> 0.7'
+  gem.add_dependency 'aws-sdk',     '~> 1.29'
 
   gem.add_development_dependency 'rspec', '~> 2.14'
 end
