@@ -1,4 +1,3 @@
-require 'rspec'
 require 'carrierwave'
 require 'carrierwave-aws'
 
@@ -12,10 +11,19 @@ def source_environment_file!
 end
 
 RSpec.configure do |config|
-  config.treat_symbols_as_metadata_keys_with_true_values = true
+  config.mock_with :rspec do |mocks|
+    mocks.verify_partial_doubles = true
+  end
+
   config.filter_run :focus
-  config.order = 'random'
   config.run_all_when_everything_filtered = true
+  config.order = :random
+
+  if config.files_to_run.one?
+    config.default_formatter = 'doc'
+  end
+
+  Kernel.srand config.seed
 
   source_environment_file!
 end
