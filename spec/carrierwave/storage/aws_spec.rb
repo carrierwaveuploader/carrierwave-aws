@@ -13,10 +13,16 @@ describe CarrierWave::Storage::AWS do
   end
 
   describe '#connection' do
-    it 'instantiates a new connection' do
+    it 'instantiates a new connection with credentials' do
       AWS::S3.should_receive(:new).with(credentials)
 
       storage.connection
+    end
+
+    it 'instantiates a new connection without any credentials' do
+      uploader.stub(aws_credentials: nil)
+
+      expect { storage.connection }.not_to raise_exception
     end
 
     it 'caches connections by credentials' do

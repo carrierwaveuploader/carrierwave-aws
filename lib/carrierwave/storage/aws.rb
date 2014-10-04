@@ -23,9 +23,12 @@ module CarrierWave
 
       def connection
         @connection ||= begin
-          credentials = uploader.aws_credentials
-          self.class.connection_cache[credentials] ||= ::AWS::S3.new(credentials)
+          self.class.connection_cache[credentials] ||= ::AWS::S3.new(*credentials)
         end
+      end
+
+      def credentials
+        [uploader.aws_credentials].compact
       end
 
       class File
