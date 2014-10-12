@@ -1,3 +1,5 @@
+* Fix `exists?` method of AWS::File (previously it always returned true)
+  [Felix Bünemann]
 * Fix `filename` method of AWS::File for private files and remove url encoding.
   [Felix Bünemann]
 

@@ -53,6 +53,14 @@ describe CarrierWave::Storage::AWS::File do
     CarrierWave::Storage::AWS::File.new(uploader, connection, path)
   end
 
+  describe '#exists?' do
+    it 'checks if the remote file object exists' do
+      expect(file).to receive(:exists?).and_return(true)
+
+      aws_file.exists?
+    end
+  end
+
   describe '#read' do
     it 'reads from the remote file object' do
       expect(aws_file.read).to eq('0101010')
