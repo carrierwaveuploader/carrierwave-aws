@@ -63,7 +63,7 @@ module CarrierWave
 
         def filename(options = {})
           if file_url = url(options)
-            file_url.gsub(/.*\/(.*?$)/, '\1')
+            URI.decode(file_url.split('?').first).gsub(/.*\/(.*?$)/, '\1')
           end
         end
 

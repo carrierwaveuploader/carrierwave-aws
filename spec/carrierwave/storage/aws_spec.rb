@@ -147,4 +147,12 @@ describe CarrierWave::Storage::AWS::File do
       expect(aws_file.url).to eq('http://example.com/files/1/file.txt')
     end
   end
+
+  describe '#filename' do
+    it 'returns the filename from the url' do
+      expect(aws_file).to receive(:url).and_return('http://example.com/files/1/file%201.txt?foo=bar/baz.txt')
+
+      expect(aws_file.filename).to eq('file 1.txt')
+    end
+  end
 end

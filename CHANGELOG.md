@@ -1,3 +1,6 @@
+* Fix `filename` method of AWS::File for private files and remove url encoding.
+  [Felix Bünemann]
+
 ## Version 0.4.1 2014-03-28
 
 * Fix regression in `aws_read_options` defaulting to `nil` rather than an empty
