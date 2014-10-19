@@ -58,7 +58,7 @@ module CarrierWave
         end
 
         def exists?
-          !!file
+          file.exists?
         end
 
         def filename(options = {})
