@@ -5,6 +5,7 @@ if ENV['S3_BUCKET_NAME']
     before(:all) do
       CarrierWave.configure do |config|
         config.storage    = :aws
+        config.cache_storage = :aws
         config.aws_bucket = ENV['S3_BUCKET_NAME']
         config.aws_acl    = :public_read
 
@@ -15,16 +16,28 @@ if ENV['S3_BUCKET_NAME']
       end
     end
 
-    it 'uploads the file to the configured bucket' do
+    let(:image) { File.open('spec/fixtures/image.png', 'r') }
+    let(:uploader) do
       uploader = Class.new(CarrierWave::Uploader::Base) do
         def filename; 'image.png'; end
       end
+    end
 
-      image    = File.open('spec/fixtures/image.png', 'r')
+    it 'uploads the file to the configured bucket' do
       instance = uploader.new
 
       instance.store!(image)
       instance.retrieve_from_store!('image.png')
+
+      expect(instance.file.size).to be_nonzero
+      expect(image.size).to eq(instance.file.size)
+    end
+
+    it 'uploads the cache file to the configured bucket' do
+      instance = uploader.new
+
+      instance.cache!(image)
+      instance.retrieve_from_cache!(instance.cache_name)
 
       expect(instance.file.size).to be_nonzero
       expect(image.size).to eq(instance.file.size)

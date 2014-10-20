@@ -21,6 +21,24 @@ module CarrierWave
         File.new(uploader, connection, uploader.store_path(identifier))
       end
 
+      def cache!(file)
+        File.new(uploader, connection, uploader.cache_path).tap do |aws_file|
+          aws_file.store(file)
+        end
+      end
+
+      def retrieve_from_cache!(identifier)
+        File.new(uploader, connection, uploader.cache_path(identifier))
+      end
+
+      def delete_dir!(path)
+        # do nothing, because there's no such things as 'empty directory'
+      end
+
+      def clean_cache!(seconds)
+        raise 'Missing clean_cache! implementation for cache storage AWS'
+      end
+
       def connection
         @connection ||= begin
           self.class.connection_cache[credentials] ||= ::AWS::S3.new(*credentials)
@@ -76,9 +94,21 @@ module CarrierWave
         end
 
         def store(new_file)
-          @file = bucket.objects[path].write(uploader_write_options(new_file))
+          if new_file.is_a?(self.class)
+            new_file.move_to(path)
+          else
+            @file = bucket.objects[path].write(uploader_write_options(new_file))
+          end
 
           true
+        end
+
+        def move_to(path)
+          options = uploader_write_options(self)
+          options.delete(:file)
+
+          file.move_to(path, options)
+          self
         end
 
         def to_file
