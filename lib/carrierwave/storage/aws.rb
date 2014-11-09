@@ -42,7 +42,7 @@ module CarrierWave
         end
 
         def attributes
-          file.attributes
+          file.head.data
         end
 
         def content_type
