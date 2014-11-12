@@ -42,7 +42,7 @@ module CarrierWave
         end
 
         def attributes
-          file.attributes
+          file.head.data
         end
 
         def content_type
@@ -105,6 +105,10 @@ module CarrierWave
           end
         end
 
+        def copy_to(new_path)
+          file.copy_to(bucket.objects[new_path], uploader_copy_options)
+        end
+
         def uploader_read_options
           uploader.aws_read_options || {}
         end
@@ -117,6 +121,16 @@ module CarrierWave
             content_type: new_file.content_type,
             file:         new_file.path
           }.merge(aws_attributes).merge(aws_write_options)
+        end
+
+        def uploader_copy_options
+          aws_write_options = uploader.aws_write_options || {}
+
+          storage_options = aws_write_options.select do |key,_|
+            [:reduced_redundancy, :storage_class, :server_side_encryption].include?(key)
+          end
+
+          { acl: uploader.aws_acl }.merge(storage_options)
         end
 
         private
