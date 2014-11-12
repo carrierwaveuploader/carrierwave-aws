@@ -18,7 +18,7 @@ RSpec.configure do |config|
   end
 
   config.filter_run :focus
-  config.filter_run_excluding type: :feature unless ENV['S3_BUCKET_NAME']
+  config.filter_run_excluding type: :feature unless ENV.key?('S3_BUCKET_NAME')
   config.run_all_when_everything_filtered = true
   config.order = :random
 
