@@ -1,6 +1,7 @@
 require 'carrierwave'
 require 'carrierwave/aws/version'
 require 'carrierwave/storage/aws'
+require 'carrierwave/storage/aws_file'
 
 class CarrierWave::Uploader::Base
   add_config :aws_attributes
