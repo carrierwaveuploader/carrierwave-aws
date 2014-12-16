@@ -59,7 +59,7 @@ module CarrierWave
           unless defined?(::AWS::CF::Signer)
             raise "You must include the cloudfront-signer gem and configure it properly to use signed cloudfront urls"
           end
-          ::AWS::CF::Signer.sign_url(public_url)
+          ::AWS::CF::Signer.sign_url([public_url, options.to_query].join '?')
         elsif uploader.aws_acl != :public_read
           authenticated_url(options)
         else
