@@ -82,6 +82,24 @@ If you have a custom uploader that specifies additional headers for each URL, pl
 If you migrate from `fog` you probably have something like `url(query: {'my-header': 'my-value'})`.
 With `carrierwave-aws` the `query` part becomes obsolete, just use a hash of headers.
 
+### Signing Cloudfront URLs
+
+To sign cloudfront urls, install and configure the `cloudfront-signer` gem, then configure as follows:
+
+```ruby
+CarrierWave.configure do |config|
+  config.storage    = :aws
+  config.aws_bucket = ENV.fetch('S3_BUCKET_NAME')
+  config.aws_acl    = false
+  config.asset_host = 'https://sdfsdkjksdjflkj.cloudfront.net'
+  config.sign_cloudfront = true
+  config.aws_credentials = {
+    access_key_id:     ENV.fetch('AWS_ACCESS_KEY_ID'),
+    secret_access_key: ENV.fetch('AWS_SECRET_ACCESS_KEY')
+  }
+end
+```
+
 ## Contributing
 
 In order to run the integration specs you will need to configure some
