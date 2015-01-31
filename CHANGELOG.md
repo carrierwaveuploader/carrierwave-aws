@@ -1,3 +1,6 @@
+## Version 0.5.0 2015-01-31
+
+* Change: Nudge the expected AWS-SDK version.
 * Fix `exists?` method of AWS::File (previously it always returned true)
   [Felix Bünemann]
 * Fix `filename` method of AWS::File for private files and remove url encoding.
