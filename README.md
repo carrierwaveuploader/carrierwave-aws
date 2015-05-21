@@ -73,6 +73,9 @@ If you have a custom uploader that specifies additional headers for each URL, pl
   class MyUploader < Carrierwave::Uploader::Base
     # You can find full list of custom headers in AWS SDK documentation on
     # AWS::S3::S3Object
+    
+    # You need to comment out the line `storage :file`, as it overwrites the
+    # configuration `storage :aws`.
     def download_url(filename)
       url(response_content_disposition: %Q{attachment; filename="#{filename}"})
     end
