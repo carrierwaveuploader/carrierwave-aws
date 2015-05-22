@@ -60,23 +60,28 @@ config.aws_credentials = {
 }
 ```
 
-`AWS.config` will return `AWS::Core::Configuration` object which is used
-through `aws-sdk` gem. Browse [Amazon docs](http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/Core/Configuration.html)
-for additional info. For example, if you want to turn off SSL for your asset
-URLs, you could simply set `AWS.config(use_ssl: false)`.
+`AWS.config` will return `AWS::Core::Configuration` object which is used through
+`aws-sdk` gem. Browse [Amazon Docs][amazon-docs] for additional info. For
+example, if you want to turn off SSL for your asset URLs, you could simply set
+`AWS.config(use_ssl: false)`.
 
 ### Custom options for AWS URLs
 
 If you have a custom uploader that specifies additional headers for each URL, please try the following example:
 
 ```ruby
-  class MyUploader < Carrierwave::Uploader::Base
-    # You can find full list of custom headers in AWS SDK documentation on
-    # AWS::S3::S3Object
-    def download_url(filename)
-      url(response_content_disposition: %Q{attachment; filename="#{filename}"})
-    end
+class MyUploader < Carrierwave::Uploader::Base
+  # Storage configuration within the uploader supercedes the global CarrierWave
+  # config, so be sure that your uploader does not contain `storage :file`, or
+  # AWS will not be used.
+  storage :aws
+
+  # You can find full list of custom headers in AWS SDK documentation on
+  # AWS::S3::S3Object
+  def download_url(filename)
+    url(response_content_disposition: %Q{attachment; filename="#{filename}"})
   end
+end
 ```
 
 If you migrate from `fog` you probably have something like `url(query: {'my-header': 'my-value'})`.
@@ -97,3 +102,5 @@ cp .env.sample .env
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+[amazon-docs]: http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/Core/Configuration.html
