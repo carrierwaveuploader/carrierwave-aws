@@ -19,13 +19,6 @@ describe CarrierWave::Storage::AWS do
       storage.connection
     end
 
-    it 'instantiates a new connection without any credentials' do
-      pending("aws-sdk v2 requires a region to be specified at instantiation time")
-      allow(uploader).to receive(:aws_credentials) { nil }
-
-      expect { storage.connection }.not_to raise_exception
-    end
-
     it 'caches connections by credentials' do
       expect(storage.connection).to eq(storage.connection)
     end
