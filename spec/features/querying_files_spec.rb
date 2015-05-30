@@ -13,8 +13,7 @@ describe 'Querying Files', type: :feature do
     instance.retrieve_from_store!('image.png')
 
     expect(instance.file.attributes).to include(
-      :meta,
-      :restore_in_progress,
+      :metadata,
       :content_type,
       :etag,
       :accept_ranges,
