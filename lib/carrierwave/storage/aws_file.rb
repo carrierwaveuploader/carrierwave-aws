@@ -63,7 +63,7 @@ module CarrierWave
       end
 
       def authenticated_url(options = {})
-        file.url_for(:read, { expires: uploader.aws_authenticated_url_expiration }.merge(options)).to_s
+        file.presigned_url(:get, { expires_in: uploader.aws_authenticated_url_expiration }.merge(options))
       end
 
       def public_url

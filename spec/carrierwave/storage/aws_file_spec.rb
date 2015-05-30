@@ -87,7 +87,7 @@ describe CarrierWave::Storage::AWSFile do
     it 'requests a url for reading with the configured expiration' do
       allow(uploader).to receive(:aws_authenticated_url_expiration) { 60 }
 
-      expect(file).to receive(:url_for).with(:read, expires: 60)
+      expect(file).to receive(:presigned_url).with(:get, { expires_in: 60 })
 
       aws_file.authenticated_url
     end
@@ -95,7 +95,7 @@ describe CarrierWave::Storage::AWSFile do
     it 'requests a url for reading with custom options' do
       allow(uploader).to receive(:aws_authenticated_url_expiration) { 60 }
 
-      expect(file).to receive(:url_for).with(:read, hash_including(response_content_disposition: 'attachment'))
+      expect(file).to receive(:presigned_url).with(:get, hash_including(response_content_disposition: 'attachment'))
 
       aws_file.authenticated_url(response_content_disposition: 'attachment')
     end
