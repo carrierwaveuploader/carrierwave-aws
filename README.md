@@ -38,32 +38,17 @@ the use of `aws_bucket` instead of `fog_directory`, and `aws_acl` instead of
 CarrierWave.configure do |config|
   config.storage    = :aws
   config.aws_bucket = ENV.fetch('S3_BUCKET_NAME')
-  config.aws_acl    = :public_read
+  config.aws_acl    = :'public-read'
   config.asset_host = 'http://example.com'
   config.aws_authenticated_url_expiration = 60 * 60 * 24 * 365
 
   config.aws_credentials = {
     access_key_id:     ENV.fetch('AWS_ACCESS_KEY_ID'),
-    secret_access_key: ENV.fetch('AWS_SECRET_ACCESS_KEY')
+    secret_access_key: ENV.fetch('AWS_SECRET_ACCESS_KEY'),
+    region:            ENV.fetch('AWS_REGION') # Required
   }
 end
 ```
-
-If you want to supply your own AWS configuration, put it inside
-`config.aws_credentials` like this:
-
-```ruby
-config.aws_credentials = {
-  access_key_id:     ENV['AWS_ACCESS_KEY_ID'],
-  secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-  config: AWS.config(my_aws_options)
-}
-```
-
-`AWS.config` will return `AWS::Core::Configuration` object which is used through
-`aws-sdk` gem. Browse [Amazon Docs][amazon-docs] for additional info. For
-example, if you want to turn off SSL for your asset URLs, you could simply set
-`AWS.config(use_ssl: false)`.
 
 ### Custom options for AWS URLs
 
@@ -102,5 +87,3 @@ cp .env.sample .env
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
-
-[amazon-docs]: http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/Core/Configuration.html
