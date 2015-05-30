@@ -9,7 +9,7 @@ describe CarrierWave::Storage::AWSFile do
   let(:uploader) do
     double(:uploader,
       aws_bucket: 'example-com',
-      aws_acl: 'public-read',
+      aws_acl: :'public-read',
       aws_attributes: {},
       asset_host: nil,
       aws_read_options: { encryption_key: 'abc' },
@@ -41,7 +41,7 @@ describe CarrierWave::Storage::AWSFile do
       uploader_write_options = aws_file.uploader_write_options(stub_file)
 
       expect(uploader_write_options).to include(
-        acl:            'public-read',
+        acl:            :'public-read',
         content_type:   'image/png',
         encryption_key: 'def'
       )
@@ -103,7 +103,7 @@ describe CarrierWave::Storage::AWSFile do
 
   describe '#url' do
     it 'requests a public url if acl is public readable' do
-      allow(uploader).to receive(:aws_acl) { :public_read }
+      allow(uploader).to receive(:aws_acl) { :'public-read' }
 
       expect(file).to receive(:public_url)
 
@@ -114,13 +114,13 @@ describe CarrierWave::Storage::AWSFile do
       allow(uploader).to receive(:aws_acl) { :private }
       allow(uploader).to receive(:aws_authenticated_url_expiration) { 60 }
 
-      expect(file).to receive(:url_for)
+      expect(file).to receive(:presigned_url).with(:get, { expires_in: 60 })
 
       aws_file.url
     end
 
     it 'uses the asset_host and file path if asset_host is set' do
-      allow(uploader).to receive(:aws_acl) { :public_read }
+      allow(uploader).to receive(:aws_acl) { :'public-read' }
       allow(uploader).to receive(:asset_host) { 'http://example.com' }
 
       expect(aws_file.url).to eq('http://example.com/files/1/file.txt')
