@@ -75,7 +75,7 @@ module CarrierWave
       end
 
       def copy_to(new_path)
-        file.copy_to(bucket.objects[new_path], uploader_copy_options)
+        bucket.object(new_path).copy_from(copy_source: "#{bucket.name}/#{file.key}")
       end
 
       def uploader_read_options
