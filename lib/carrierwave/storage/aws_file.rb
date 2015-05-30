@@ -19,7 +19,7 @@ module CarrierWave
       end
 
       def delete
-        connection.delete_object(bucket: uploader.aws_bucket, key: path)
+        file.delete
       end
 
       def extension
@@ -45,7 +45,7 @@ module CarrierWave
       end
 
       def store(new_file)
-        @file = connection.put_object(uploader_write_options(new_file))
+        @file = file.put(uploader_write_options(new_file))
 
         true
       end
@@ -88,9 +88,7 @@ module CarrierWave
 
         { acl:          uploader.aws_acl,
           body:         new_file.to_file,
-          bucket:       uploader.aws_bucket,
           content_type: new_file.content_type,
-          key:          path
         }.merge(aws_attributes).merge(aws_write_options)
       end
 
@@ -106,8 +104,12 @@ module CarrierWave
 
       private
 
+      def bucket
+        @bucket ||= connection.bucket(uploader.aws_bucket)
+      end
+
       def file
-        @file ||= connection.get_object(bucket: uploader.aws_bucket, key: path)
+        @file ||= bucket.object(path)
       end
     end
   end

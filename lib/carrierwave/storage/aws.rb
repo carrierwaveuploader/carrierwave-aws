@@ -1,4 +1,4 @@
-require 'aws-sdk-core'
+require 'aws-sdk-resources'
 
 module CarrierWave
   module Storage
@@ -23,7 +23,7 @@ module CarrierWave
 
       def connection
         @connection ||= begin
-          self.class.connection_cache[credentials] ||= ::Aws::S3::Client.new(*credentials)
+          self.class.connection_cache[credentials] ||= ::Aws::S3::Resource.new(*credentials)
         end
       end
 
