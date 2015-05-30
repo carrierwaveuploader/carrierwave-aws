@@ -1,16 +1,15 @@
 require 'spec_helper'
 
 describe CarrierWave::Storage::AWSFile do
-  let(:objects)    { { 'files/1/file.txt' => file } }
   let(:path)       { 'files/1/file.txt' }
-  let(:bucket)     { double(:bucket, objects: objects) }
-  let(:connection) { double(:connection, buckets: { 'example-com' => bucket }) }
   let(:file)       { double(:file, read: '0101010', content_type: 'content/type', path: '/file/path') }
+  let(:bucket)     { double(:bucket, object: file) }
+  let(:connection) { double(:connection, bucket: bucket) }
 
   let(:uploader) do
     double(:uploader,
       aws_bucket: 'example-com',
-      aws_acl: :public_read,
+      aws_acl: 'public-read',
       aws_attributes: {},
       asset_host: nil,
       aws_read_options: { encryption_key: 'abc' },
@@ -37,20 +36,23 @@ describe CarrierWave::Storage::AWSFile do
   end
 
   describe '#uploader_write_options' do
-    it 'includes acl, content_type, file, aws_attributes, and aws_write_options' do
-      expect(aws_file.uploader_write_options(file)).to eq(
-        acl:            :public_read,
-        content_type:   'content/type',
-        file:           '/file/path',
+    let(:stub_file) { CarrierWave::SanitizedFile.new('spec/fixtures/image.png') }
+    it 'includes acl, content_type, body (file), aws_attributes, and aws_write_options' do
+      uploader_write_options = aws_file.uploader_write_options(stub_file)
+
+      expect(uploader_write_options).to include(
+        acl:            'public-read',
+        content_type:   'image/png',
         encryption_key: 'def'
       )
+      expect(uploader_write_options[:body].path).to eq(stub_file.path)
     end
 
     it 'works if aws_attributes is nil' do
       allow(uploader).to receive(:aws_attributes) { nil }
 
       expect {
-        aws_file.uploader_write_options(file)
+        aws_file.uploader_write_options(stub_file)
       }.to_not raise_error
     end
 
@@ -58,7 +60,7 @@ describe CarrierWave::Storage::AWSFile do
       allow(uploader).to receive(:aws_write_options) { nil }
 
       expect {
-        aws_file.uploader_write_options(file)
+        aws_file.uploader_write_options(stub_file)
       }.to_not raise_error
     end
   end
