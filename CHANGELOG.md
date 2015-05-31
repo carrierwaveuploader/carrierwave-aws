@@ -1,3 +1,9 @@
+## Version 0.6.0
+
+* Breaking Change: Updated to use AWS-SDK v2 [Mark Oleson]
+  * You must specify a region in your `aws_credentials` configuration
+  * You must use hyphens in ACLs instead of underscores (`:public_read` becomes `:'public-read'` or `'public-read'`)
+
 ## Version 0.5.0 2015-01-31
 
 * Change: Nudge the expected AWS-SDK version.
