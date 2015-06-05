@@ -14,6 +14,7 @@ describe 'Storing Files', type: :feature do
 
     expect(instance.file.size).to be_nonzero
     expect(image.size).to eq(instance.file.size)
+    expect(instance.file.read).not_to be_nil
 
     image.close
     instance.file.delete

@@ -37,7 +37,7 @@ module CarrierWave
       end
 
       def read
-        file.read(uploader_read_options)
+        file.get(uploader_read_options).body.read
       end
 
       def size
