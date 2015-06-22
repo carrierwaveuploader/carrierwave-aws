@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CarrierWave::Storage::AWSFile do
   let(:path)       { 'files/1/file.txt' }
-  let(:file)       { double(:file, read: '0101010', content_type: 'content/type', path: '/file/path') }
+  let(:file)       { double(:file, content_type: 'content/type', path: '/file/path') }
   let(:bucket)     { double(:bucket, object: file) }
   let(:connection) { double(:connection, bucket: bucket) }
 
@@ -26,12 +26,6 @@ describe CarrierWave::Storage::AWSFile do
       expect(file).to receive(:exists?).and_return(true)
 
       aws_file.exists?
-    end
-  end
-
-  describe '#read' do
-    it 'reads from the remote file object' do
-      expect(aws_file.read).to eq('0101010')
     end
   end
 
