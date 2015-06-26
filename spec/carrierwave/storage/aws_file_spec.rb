@@ -21,53 +21,21 @@ describe CarrierWave::Storage::AWSFile do
     CarrierWave::Storage::AWSFile.new(uploader, connection, path)
   end
 
+  # TODO: Stop stubbing. Increase the number of examples.
+  describe '#filename' do
+    it 'returns the filename from the url' do
+      expect(aws_file).to receive(:url).and_return('http://example.com/files/1/file%201.txt?foo=bar/baz.txt')
+
+      expect(aws_file.filename).to eq('file 1.txt')
+    end
+  end
+
+  # TODO: Stop stubbing. Include true and false cases for this.
   describe '#exists?' do
     it 'checks if the remote file object exists' do
       expect(file).to receive(:exists?).and_return(true)
 
       aws_file.exists?
-    end
-  end
-
-  describe '#uploader_write_options' do
-    let(:stub_file) { CarrierWave::SanitizedFile.new('spec/fixtures/image.png') }
-    it 'includes acl, content_type, body (file), aws_attributes, and aws_write_options' do
-      uploader_write_options = aws_file.uploader_write_options(stub_file)
-
-      expect(uploader_write_options).to include(
-        acl:            :'public-read',
-        content_type:   'image/png',
-        encryption_key: 'def'
-      )
-      expect(uploader_write_options[:body].path).to eq(stub_file.path)
-    end
-
-    it 'works if aws_attributes is nil' do
-      allow(uploader).to receive(:aws_attributes) { nil }
-
-      expect {
-        aws_file.uploader_write_options(stub_file)
-      }.to_not raise_error
-    end
-
-    it 'works if aws_write_options is nil' do
-      allow(uploader).to receive(:aws_write_options) { nil }
-
-      expect {
-        aws_file.uploader_write_options(stub_file)
-      }.to_not raise_error
-    end
-  end
-
-  describe '#uploader_read_options' do
-    it 'includes aws_read_options' do
-      expect(aws_file.uploader_read_options).to eq(encryption_key: 'abc')
-    end
-
-    it 'ensures that read options are a hash' do
-      allow(uploader).to receive(:aws_read_options) { nil }
-
-      expect(aws_file.uploader_read_options).to eq({})
     end
   end
 
@@ -121,11 +89,4 @@ describe CarrierWave::Storage::AWSFile do
     end
   end
 
-  describe '#filename' do
-    it 'returns the filename from the url' do
-      expect(aws_file).to receive(:url).and_return('http://example.com/files/1/file%201.txt?foo=bar/baz.txt')
-
-      expect(aws_file.filename).to eq('file 1.txt')
-    end
-  end
 end

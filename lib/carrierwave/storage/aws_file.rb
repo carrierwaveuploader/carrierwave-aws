@@ -2,12 +2,13 @@ module CarrierWave
   module Storage
     class AWSFile
       attr_writer :content_type
-      attr_reader :uploader, :connection, :path
+      attr_reader :uploader, :connection, :path, :aws_options
 
       def initialize(uploader, connection, path)
-        @uploader   = uploader
-        @connection = connection
-        @path       = path
+        @uploader    = uploader
+        @connection  = connection
+        @path        = path
+        @aws_options = AWSOptions.new(uploader)
       end
 
       def attributes
@@ -37,19 +38,21 @@ module CarrierWave
       end
 
       def read
-        file.get(uploader_read_options).body.read
+        file.get(aws_options.read_options).body.read
       end
 
       def size
         file.content_length
       end
 
+      # TODO: What if this fails?
       def store(new_file)
-        @file = file.put(uploader_write_options(new_file))
+        @file = file.put(aws_options.write_options(new_file))
 
         true
       end
 
+      # TODO: This doesn't dup anything, why hide the actual file implementation?
       def to_file
         file
       end
@@ -76,30 +79,6 @@ module CarrierWave
 
       def copy_to(new_path)
         bucket.object(new_path).copy_from(copy_source: "#{bucket.name}/#{file.key}")
-      end
-
-      def uploader_read_options
-        uploader.aws_read_options || {}
-      end
-
-      def uploader_write_options(new_file)
-        aws_attributes    = uploader.aws_attributes    || {}
-        aws_write_options = uploader.aws_write_options || {}
-
-        { acl:          uploader.aws_acl,
-          body:         new_file.to_file,
-          content_type: new_file.content_type,
-        }.merge(aws_attributes).merge(aws_write_options)
-      end
-
-      def uploader_copy_options
-        aws_write_options = uploader.aws_write_options || {}
-
-        storage_options = aws_write_options.select do |key,_|
-          [:reduced_redundancy, :storage_class, :server_side_encryption].include?(key)
-        end
-
-        { acl: uploader.aws_acl }.merge(storage_options)
       end
 
       private
