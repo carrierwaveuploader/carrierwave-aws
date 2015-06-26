@@ -12,20 +12,19 @@ describe 'Storing Files', type: :feature do
     instance.store!(image)
     instance.retrieve_from_store!('image.png')
 
+    verify_existence(instance.file)
     verify_attributes(instance.file)
     verify_content_type(instance.file, 'image/png')
+    verify_size(instance.file, image.size)
     verify_filename(instance.file, 'image.png')
-
-    expect(instance.file.size).to be_nonzero
-    expect(image.size).to eq(instance.file.size)
-
-    read = instance.file.read
-
-    expect(read).not_to be_nil
-    expect(read).to eq(instance.file.read)
+    verify_reading(instance.file, image)
 
     image.close
     instance.file.delete
+  end
+
+  def verify_existence(file)
+    expect(file.exists?).to be_truthy
   end
 
   def verify_attributes(file)
@@ -40,5 +39,14 @@ describe 'Storing Files', type: :feature do
 
   def verify_filename(file, name)
     expect(file.filename).to eq(name)
+  end
+
+  def verify_size(file, size)
+    expect(file.size).to eq(size)
+  end
+
+  def verify_reading(file, image)
+    expect(file.read).to eq(image.read)
+    expect(file.read).to eq(file.read)
   end
 end

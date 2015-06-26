@@ -38,33 +38,6 @@ describe CarrierWave::Storage::AWSFile do
     end
   end
 
-  # TODO: Stop stubbing. Include true and false cases for this.
-  describe '#exists?' do
-    it 'checks if the remote file object exists' do
-      expect(file).to receive(:exists?).and_return(true)
-
-      aws_file.exists?
-    end
-  end
-
-  describe '#authenticated_url' do
-    it 'requests a url for reading with the configured expiration' do
-      allow(uploader).to receive(:aws_authenticated_url_expiration) { 60 }
-
-      expect(file).to receive(:presigned_url).with(:get, { expires_in: 60 })
-
-      aws_file.authenticated_url
-    end
-
-    it 'requests a url for reading with custom options' do
-      allow(uploader).to receive(:aws_authenticated_url_expiration) { 60 }
-
-      expect(file).to receive(:presigned_url).with(:get, hash_including(response_content_disposition: 'attachment'))
-
-      aws_file.authenticated_url(response_content_disposition: 'attachment')
-    end
-  end
-
   describe '#url' do
     it 'requests a public url if acl is public readable' do
       allow(uploader).to receive(:aws_acl) { :'public-read' }
@@ -90,5 +63,4 @@ describe CarrierWave::Storage::AWSFile do
       expect(aws_file.url).to eq('http://example.com/files/1/file.txt')
     end
   end
-
 end
