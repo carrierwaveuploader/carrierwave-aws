@@ -10,6 +10,10 @@ def source_environment_file!
   end
 end
 
+FeatureUploader = Class.new(CarrierWave::Uploader::Base) do
+  def filename; 'image.png'; end
+end
+
 RSpec.configure do |config|
   source_environment_file!
 

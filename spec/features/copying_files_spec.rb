@@ -1,12 +1,8 @@
 require 'spec_helper'
 
 describe 'Copying Files', type: :feature do
-  Uploader = Class.new(CarrierWave::Uploader::Base) do
-    def filename; 'image.png'; end
-  end
-
   let(:image)    { File.open('spec/fixtures/image.png', 'r') }
-  let(:instance) { Uploader.new }
+  let(:original) { FeatureUploader.new }
 
   it 'copies an existing file to the specified path' do
     original.store!(image)
@@ -14,7 +10,7 @@ describe 'Copying Files', type: :feature do
 
     original.file.copy_to('uploads/image2.png')
 
-    copy = uploader.new
+    copy = FeatureUploader.new
     copy.retrieve_from_store!('image2.png')
 
     original_attributes = original.file.attributes

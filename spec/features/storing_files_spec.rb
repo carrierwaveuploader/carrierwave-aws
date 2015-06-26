@@ -1,12 +1,8 @@
 require 'spec_helper'
 
 describe 'Storing Files', type: :feature do
-  Uploader = Class.new(CarrierWave::Uploader::Base) do
-    def filename; 'image.png'; end
-  end
-
   let(:image)    { File.open('spec/fixtures/image.png', 'r') }
-  let(:instance) { Uploader.new }
+  let(:instance) { FeatureUploader.new }
 
   it 'uploads the file to the configured bucket' do
     instance.store!(image)

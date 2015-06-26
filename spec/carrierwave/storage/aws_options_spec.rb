@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe CarrierWave::Storage::AWSOptions do
-  Uploader = Class.new do
+  uploader_klass = Class.new do
     attr_accessor :aws_attributes, :aws_read_options, :aws_write_options
 
     def aws_acl
@@ -13,7 +13,7 @@ describe CarrierWave::Storage::AWSOptions do
     end
   end
 
-  let(:uploader) { Uploader.new }
+  let(:uploader) { uploader_klass.new }
   let(:options)  { CarrierWave::Storage::AWSOptions.new(uploader) }
 
   describe '#read_options' do
