@@ -53,9 +53,7 @@ module CarrierWave
       end
 
       def store(new_file)
-        @file = file.put(aws_options.write_options(new_file))
-
-        !!@file
+        !!file.put(aws_options.write_options(new_file))
       end
 
       def copy_to(new_path)
