@@ -1,8 +1,8 @@
 module CarrierWave
   module Storage
     class AWSFile
-      attr_writer :file, :content_type
-      attr_reader :uploader, :connection, :path, :aws_options
+      attr_writer :file
+      attr_accessor :uploader, :connection, :path, :aws_options
 
       def initialize(uploader, connection, path)
         @uploader    = uploader
@@ -22,7 +22,7 @@ module CarrierWave
       end
 
       def content_type
-        @content_type || file.content_type
+        file.content_type
       end
 
       def delete
@@ -39,7 +39,7 @@ module CarrierWave
 
       def filename(options = {})
         if file_url = url(options)
-          URI.decode(file_url.split('?').first).gsub(/.*\/(.*?$)/, '\1')
+          CarrierWave::Support::UriFilename.filename(file_url)
         end
       end
 

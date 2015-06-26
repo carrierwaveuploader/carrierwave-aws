@@ -30,7 +30,14 @@ describe CarrierWave::Storage::AWSFile do
     end
   end
 
-  # TODO: Stop stubbing. Increase the number of examples.
+  describe '#extension' do
+    it 'extracts the file extension from the path' do
+      aws_file.path = 'file.txt'
+
+      expect(aws_file.extension).to eq('txt')
+    end
+  end
+
   describe '#filename' do
     it 'returns the filename from the url' do
       expect(aws_file).to receive(:url).and_return('http://example.com/files/1/file%201.txt?foo=bar/baz.txt')
