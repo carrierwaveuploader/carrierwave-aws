@@ -34,7 +34,8 @@ module CarrierWave
       end
 
       def extension
-        path.split('.').last
+        elements = path.split('.')
+        elements.last if elements.size > 1
       end
 
       def filename(options = {})
@@ -51,19 +52,14 @@ module CarrierWave
         file.content_length
       end
 
-      # TODO: What if this fails?
       def store(new_file)
         @file = file.put(aws_options.write_options(new_file))
 
-        true
+        !!@file
       end
 
-      def url(options = {})
-        if uploader.aws_acl.to_s != 'public-read'
-          authenticated_url(options)
-        else
-          public_url
-        end
+      def copy_to(new_path)
+        bucket.object(new_path).copy_from(copy_source: "#{bucket.name}/#{file.key}")
       end
 
       def authenticated_url(options = {})
@@ -78,8 +74,12 @@ module CarrierWave
         end
       end
 
-      def copy_to(new_path)
-        bucket.object(new_path).copy_from(copy_source: "#{bucket.name}/#{file.key}")
+      def url(options = {})
+        if uploader.aws_acl.to_s != 'public-read'
+          authenticated_url(options)
+        else
+          public_url
+        end
       end
 
       private

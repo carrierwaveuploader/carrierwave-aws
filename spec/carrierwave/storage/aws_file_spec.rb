@@ -36,6 +36,12 @@ describe CarrierWave::Storage::AWSFile do
 
       expect(aws_file.extension).to eq('txt')
     end
+
+    it 'is nil if the file has no extension' do
+      aws_file.path = 'filetxt'
+
+      expect(aws_file.extension).to be_nil
+    end
   end
 
   describe '#url' do
