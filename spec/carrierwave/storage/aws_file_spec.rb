@@ -38,14 +38,6 @@ describe CarrierWave::Storage::AWSFile do
     end
   end
 
-  describe '#filename' do
-    it 'returns the filename from the url' do
-      expect(aws_file).to receive(:url).and_return('http://example.com/files/1/file%201.txt?foo=bar/baz.txt')
-
-      expect(aws_file.filename).to eq('file 1.txt')
-    end
-  end
-
   # TODO: Stop stubbing. Include true and false cases for this.
   describe '#exists?' do
     it 'checks if the remote file object exists' do

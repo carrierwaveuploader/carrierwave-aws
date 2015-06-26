@@ -14,6 +14,7 @@ describe 'Storing Files', type: :feature do
 
     verify_attributes(instance.file)
     verify_content_type(instance.file, 'image/png')
+    verify_filename(instance.file, 'image.png')
 
     expect(instance.file.size).to be_nonzero
     expect(image.size).to eq(instance.file.size)
@@ -35,5 +36,9 @@ describe 'Storing Files', type: :feature do
 
   def verify_content_type(file, content_type)
     expect(file.content_type).to eq(content_type)
+  end
+
+  def verify_filename(file, name)
+    expect(file.filename).to eq(name)
   end
 end
