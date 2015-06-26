@@ -1,7 +1,7 @@
 module CarrierWave
   module Storage
     class AWSFile
-      attr_writer :content_type
+      attr_writer :file, :content_type
       attr_reader :uploader, :connection, :path, :aws_options
 
       def initialize(uploader, connection, path)
@@ -10,6 +10,12 @@ module CarrierWave
         @path        = path
         @aws_options = AWSOptions.new(uploader)
       end
+
+      def file
+        @file ||= bucket.object(path)
+      end
+
+      alias_method :to_file, :file
 
       def attributes
         file.data.to_h
@@ -23,12 +29,12 @@ module CarrierWave
         file.delete
       end
 
-      def extension
-        path.split('.').last
-      end
-
       def exists?
         file.exists?
+      end
+
+      def extension
+        path.split('.').last
       end
 
       def filename(options = {})
@@ -50,11 +56,6 @@ module CarrierWave
         @file = file.put(aws_options.write_options(new_file))
 
         true
-      end
-
-      # TODO: This doesn't dup anything, why hide the actual file implementation?
-      def to_file
-        file
       end
 
       def url(options = {})
@@ -85,10 +86,6 @@ module CarrierWave
 
       def bucket
         @bucket ||= connection.bucket(uploader.aws_bucket)
-      end
-
-      def file
-        @file ||= bucket.object(path)
       end
     end
   end

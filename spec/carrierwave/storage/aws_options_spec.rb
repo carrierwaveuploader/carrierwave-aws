@@ -37,24 +37,24 @@ describe CarrierWave::Storage::AWSOptions do
   end
 
   describe '#write_options' do
-    let(:stub_file) { CarrierWave::SanitizedFile.new('spec/fixtures/image.png') }
+    let(:file) { CarrierWave::SanitizedFile.new('spec/fixtures/image.png') }
 
     it 'includes acl, content_type, body (file), aws_attributes, and aws_write_options' do
-      write_options = options.write_options(stub_file)
+      write_options = options.write_options(file)
 
       expect(write_options).to include(
         acl:            'public-read',
         content_type:   'image/png',
         encryption_key: 'def'
       )
-      expect(write_options[:body].path).to eq(stub_file.path)
+      expect(write_options[:body].path).to eq(file.path)
     end
 
     it 'works if aws_attributes is nil' do
       expect(uploader).to receive(:aws_attributes) { nil }
 
       expect {
-        options.write_options(stub_file)
+        options.write_options(file)
       }.to_not raise_error
     end
 
@@ -62,7 +62,7 @@ describe CarrierWave::Storage::AWSOptions do
       expect(uploader).to receive(:aws_write_options) { nil }
 
       expect {
-        options.write_options(stub_file)
+        options.write_options(file)
       }.to_not raise_error
     end
   end

@@ -21,6 +21,15 @@ describe CarrierWave::Storage::AWSFile do
     CarrierWave::Storage::AWSFile.new(uploader, connection, path)
   end
 
+  describe '#to_file' do
+    it 'returns the internal file instance' do
+      file = Object.new
+      aws_file.file = file
+
+      expect(aws_file.to_file).to be(file)
+    end
+  end
+
   # TODO: Stop stubbing. Increase the number of examples.
   describe '#filename' do
     it 'returns the filename from the url' do
@@ -36,12 +45,6 @@ describe CarrierWave::Storage::AWSFile do
       expect(file).to receive(:exists?).and_return(true)
 
       aws_file.exists?
-    end
-  end
-
-  describe '#to_file' do
-    it 'returns the internal file instance' do
-      expect(aws_file.to_file).to be(file)
     end
   end
 
