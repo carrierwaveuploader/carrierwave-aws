@@ -1,4 +1,4 @@
-## Version 0.6.0
+## Version 0.6.0 2015-06-26
 
 * Breaking Change: Updated to use AWS-SDK v2 [Mark Oleson]
   * You must specify a region in your `aws_credentials` configuration
