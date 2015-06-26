@@ -12,41 +12,54 @@ describe 'Storing Files', type: :feature do
     instance.store!(image)
     instance.retrieve_from_store!('image.png')
 
-    verify_existence(instance.file)
-    verify_attributes(instance.file)
-    verify_content_type(instance.file, 'image/png')
-    verify_size(instance.file, image.size)
-    verify_filename(instance.file, 'image.png')
-    verify_reading(instance.file, image)
+    expect(instance.file.size).to eq(image.size)
+    expect(instance.file.read).to eq(image.read)
+    expect(instance.file.read).to eq(instance.file.read)
 
     image.close
     instance.file.delete
   end
 
-  def verify_existence(file)
-    expect(file.exists?).to be_truthy
+  it 'retrieves the attributes for a stored file' do
+    instance.store!(image)
+    instance.retrieve_from_store!('image.png')
+
+    expect(instance.file.attributes).to include(
+      :metadata,
+      :content_type,
+      :etag,
+      :accept_ranges,
+      :last_modified,
+      :content_length
+    )
+
+    expect(instance.file.content_type).to eq('image/png')
+    expect(instance.file.filename).to eq('image.png')
+
+    image.close
+    instance.file.delete
   end
 
-  def verify_attributes(file)
-    expect(file.attributes).to have_key(:content_length)
-    expect(file.attributes).to have_key(:content_type)
-    expect(file.attributes).to have_key(:etag)
+  it 'checks if a remote file exists' do
+    instance.store!(image)
+    instance.retrieve_from_store!('image.png')
+
+    expect(instance.file.exists?).to be_truthy
+
+    instance.file.delete
+
+    expect(instance.file.exists?).to be_falsy
+
+    image.close
   end
 
-  def verify_content_type(file, content_type)
-    expect(file.content_type).to eq(content_type)
-  end
+  it 'gets a url for remote files' do
+    instance.store!(image)
+    instance.retrieve_from_store!('image.png')
 
-  def verify_filename(file, name)
-    expect(file.filename).to eq(name)
-  end
+    expect(instance.url).to eq("https://#{ENV['S3_BUCKET_NAME']}.s3.amazonaws.com/#{instance.path}")
 
-  def verify_size(file, size)
-    expect(file.size).to eq(size)
-  end
-
-  def verify_reading(file, image)
-    expect(file.read).to eq(image.read)
-    expect(file.read).to eq(file.read)
+    image.close
+    instance.file.delete
   end
 end

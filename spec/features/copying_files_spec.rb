@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 describe 'Copying Files', type: :feature do
+  Uploader = Class.new(CarrierWave::Uploader::Base) do
+    def filename; 'image.png'; end
+  end
+
+  let(:image)    { File.open('spec/fixtures/image.png', 'r') }
+  let(:instance) { Uploader.new }
+
   it 'copies an existing file to the specified path' do
-    uploader = Class.new(CarrierWave::Uploader::Base) do
-      def filename; 'image.png'; end
-    end
-
-    image    = File.open('spec/fixtures/image.png', 'r')
-    original = uploader.new
-
     original.store!(image)
     original.retrieve_from_store!('image.png')
 
