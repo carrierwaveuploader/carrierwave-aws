@@ -4,6 +4,9 @@
   * You must specify a region in your `aws_credentials` configuration
   * You must use hyphens in ACLs instead of underscores (`:public_read` becomes
     `:'public-read'` or `'public-read'`)
+  * Authenticated URL's are now longer than 255 characters. If you are caching
+    url values you'll need to ensure columns allow 255+ characters.
+  * Authenticated URL expiration has been limited to 7 days.
 
 ## Version 0.5.0 2015-01-31
 
