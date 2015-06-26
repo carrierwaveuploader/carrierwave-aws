@@ -6,6 +6,10 @@ describe CarrierWave::Storage::AWSOptions do
       'public-read'
     end
 
+    def aws_authenticated_url_expiration
+      '60'
+    end
+
     def aws_attributes
     end
 
@@ -60,6 +64,20 @@ describe CarrierWave::Storage::AWSOptions do
       expect {
         options.write_options(stub_file)
       }.to_not raise_error
+    end
+  end
+
+  describe '#expiration_options' do
+    it 'extracts the expiration value' do
+      expect(options.expiration_options).to eq(
+        expires_in: uploader.aws_authenticated_url_expiration
+      )
+    end
+
+    it 'allows expiration to be overridden' do
+      expect(options.expiration_options(expires_in: 10)).to eq(
+        expires_in: 10
+      )
     end
   end
 end

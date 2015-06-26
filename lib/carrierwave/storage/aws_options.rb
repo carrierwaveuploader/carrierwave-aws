@@ -18,6 +18,12 @@ module CarrierWave
         }.merge(aws_attributes).merge(aws_write_options)
       end
 
+      def expiration_options(options = {})
+        uploader_expiration = uploader.aws_authenticated_url_expiration
+
+        { expires_in: uploader_expiration }.merge(options)
+      end
+
       private
 
       def aws_attributes
