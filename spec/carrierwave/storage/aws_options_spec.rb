@@ -2,23 +2,14 @@ require 'spec_helper'
 
 describe CarrierWave::Storage::AWSOptions do
   Uploader = Class.new do
+    attr_accessor :aws_attributes, :aws_read_options, :aws_write_options
+
     def aws_acl
       'public-read'
     end
 
     def aws_authenticated_url_expiration
       '60'
-    end
-
-    def aws_attributes
-    end
-
-    def aws_read_options
-      { encryption_key: 'abc' }
-    end
-
-    def aws_write_options
-      { encryption_key: 'def' }
     end
   end
 
@@ -27,11 +18,14 @@ describe CarrierWave::Storage::AWSOptions do
 
   describe '#read_options' do
     it 'uses the uploader aws_read_options' do
+      uploader.aws_read_options = { encryption_key: 'abc' }
+
       expect(options.read_options).to eq(uploader.aws_read_options)
     end
 
     it 'ensures that read_options are a hash' do
-      expect(uploader).to receive(:aws_read_options) { nil }
+      uploader.aws_read_options = nil
+
       expect(options.read_options).to eq({})
     end
   end
@@ -40,6 +34,8 @@ describe CarrierWave::Storage::AWSOptions do
     let(:file) { CarrierWave::SanitizedFile.new('spec/fixtures/image.png') }
 
     it 'includes acl, content_type, body (file), aws_attributes, and aws_write_options' do
+      uploader.aws_write_options = { encryption_key: 'def' }
+
       write_options = options.write_options(file)
 
       expect(write_options).to include(
