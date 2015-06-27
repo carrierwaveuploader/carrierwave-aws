@@ -13,6 +13,7 @@ class CarrierWave::Uploader::Base
   add_config :aws_acl
   add_config :aws_read_options
   add_config :aws_write_options
+  add_config :sign_urls
 
   configure do |config|
     config.storage_engines[:aws] = 'CarrierWave::Storage::AWS'

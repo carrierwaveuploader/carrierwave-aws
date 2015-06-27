@@ -60,6 +60,10 @@ module CarrierWave
         bucket.object(new_path).copy_from(copy_source: "#{bucket.name}/#{file.key}")
       end
 
+      def signed_url(options = {})
+        uploader.sign_urls[:signer].call(public_url, options)
+      end
+
       def authenticated_url(options = {})
         file.presigned_url(:get, aws_options.expiration_options(options))
       end
@@ -73,7 +77,9 @@ module CarrierWave
       end
 
       def url(options = {})
-        if uploader.aws_acl.to_s != 'public-read'
+        if uploader.sign_urls
+          signed_url(options)
+        elsif uploader.aws_acl.to_s != 'public-read'
           authenticated_url(options)
         else
           public_url

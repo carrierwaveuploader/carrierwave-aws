@@ -12,6 +12,7 @@ describe CarrierWave::Storage::AWSFile do
       aws_acl: :'public-read',
       aws_attributes: {},
       asset_host: nil,
+      sign_urls: nil,
       aws_read_options: { encryption_key: 'abc' },
       aws_write_options: { encryption_key: 'def' }
     )
@@ -60,6 +61,16 @@ describe CarrierWave::Storage::AWSFile do
       expect(file).to receive(:presigned_url).with(:get, { expires_in: 60 })
 
       aws_file.url
+    end
+
+    let(:cloudfront_signer) { -> (unsigned_url, options) { [unsigned_url, signature].join('?') } }
+    let(:signature) { 'Signature=QWERTZ&Key-Pair-Id=XYZ' }
+
+    it 'requests an signed url if url signing is configured' do
+      allow(uploader).to receive(:sign_urls) { {signer: cloudfront_signer} }
+      expect(file).to receive(:public_url) { 'http://example.com' }
+
+      expect(aws_file.url).to eq "http://example.com?#{signature}"
     end
 
     it 'uses the asset_host and file path if asset_host is set' do
