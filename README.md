@@ -39,7 +39,7 @@ CarrierWave.configure do |config|
   config.storage    = :aws
   config.aws_bucket = ENV.fetch('S3_BUCKET_NAME')
   config.aws_acl    = 'public-read'
-  config.asset_host = 'http://example.com'
+  config.asset_host = 'http://example.com' # optional
 
   # The maximum period for authenticated_urls is only 7 days.
   config.aws_authenticated_url_expiration = 60 * 60 * 24 * 7
