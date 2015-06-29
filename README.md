@@ -39,6 +39,9 @@ CarrierWave.configure do |config|
   config.storage    = :aws
   config.aws_bucket = ENV.fetch('S3_BUCKET_NAME')
   config.aws_acl    = 'public-read'
+
+  # Optionally define an asset host for configurations that are fronted by a
+  # content host, such as CloudFront.
   config.asset_host = 'http://example.com'
 
   # The maximum period for authenticated_urls is only 7 days.
