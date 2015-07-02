@@ -1,3 +1,9 @@
+## Version 1.0.0-rc.1 2015-07-02
+
+* Continues where 0.6.0 left off. This wraps AWS-SDK v2 and all of the breaking
+  changes that contains. Please see the specific breaking change notes contained
+  in `0.6.0` below.
+
 ## Version 0.7.0 2015-07-02
 
 * Revert to AWS-SDK v1. There are too many breaking changes between v1 and v2 to
