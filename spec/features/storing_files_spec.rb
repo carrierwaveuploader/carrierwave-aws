@@ -4,6 +4,10 @@ describe 'Storing Files', type: :feature do
   let(:image)    { File.open('spec/fixtures/image.png', 'r') }
   let(:instance) { FeatureUploader.new }
 
+  before do
+    instance.aws_acl = 'public-read'
+  end
+
   it 'uploads the file to the configured bucket' do
     instance.store!(image)
     instance.retrieve_from_store!('image.png')
