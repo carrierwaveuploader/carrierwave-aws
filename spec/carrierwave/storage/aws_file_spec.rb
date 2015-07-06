@@ -12,7 +12,7 @@ describe CarrierWave::Storage::AWSFile do
       aws_acl: :'public-read',
       aws_attributes: {},
       asset_host: nil,
-      sign_urls: nil,
+      aws_sign_urls: nil,
       aws_read_options: { encryption_key: 'abc' },
       aws_write_options: { encryption_key: 'def' }
     )
@@ -67,7 +67,7 @@ describe CarrierWave::Storage::AWSFile do
       signature = 'Signature=QWERTZ&Key-Pair-Id=XYZ'
       cloudfront_signer = -> (unsigned_url, options) { [unsigned_url, signature].join('?') }
 
-      allow(uploader).to receive(:sign_urls) { {signer: cloudfront_signer} }
+      allow(uploader).to receive(:aws_sign_urls) { {signer: cloudfront_signer} }
       expect(file).to receive(:public_url) { 'http://example.com' }
 
       expect(aws_file.url).to eq "http://example.com?#{signature}"
