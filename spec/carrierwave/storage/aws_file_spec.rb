@@ -63,10 +63,10 @@ describe CarrierWave::Storage::AWSFile do
       aws_file.url
     end
 
-    let(:cloudfront_signer) { -> (unsigned_url, options) { [unsigned_url, signature].join('?') } }
-    let(:signature) { 'Signature=QWERTZ&Key-Pair-Id=XYZ' }
-
     it 'requests an signed url if url signing is configured' do
+      signature = 'Signature=QWERTZ&Key-Pair-Id=XYZ'
+      cloudfront_signer = -> (unsigned_url, options) { [unsigned_url, signature].join('?') }
+
       allow(uploader).to receive(:sign_urls) { {signer: cloudfront_signer} }
       expect(file).to receive(:public_url) { 'http://example.com' }
 
