@@ -61,7 +61,7 @@ module CarrierWave
       end
 
       def signed_url(options = {})
-        uploader.signer.call(public_url, options)
+        signer.call(public_url, options)
       end
 
       def authenticated_url(options = {})
@@ -77,7 +77,7 @@ module CarrierWave
       end
 
       def url(options = {})
-        if uploader.signer
+        if signer
           signed_url(options)
         elsif uploader.aws_acl.to_s != 'public-read'
           authenticated_url(options)
