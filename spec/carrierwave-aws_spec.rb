@@ -25,7 +25,7 @@ describe CarrierWave::Uploader::Base do
     it 'does not allow unknown control values' do
       expect {
         uploader.aws_acl = 'everybody'
-      }.to raise_exception
+      }.to raise_exception CarrierWave::Uploader::Base::ConfigurationError
     end
 
     it 'normalizes the set value' do
@@ -57,7 +57,7 @@ describe CarrierWave::Uploader::Base do
     it 'does not allow signer with unknown api' do
       signer_proc = -> (unsigned_url) { }
 
-      expect { uploader.aws_signer = signer_proc }.to raise_exception
+      expect { uploader.aws_signer = signer_proc }.to raise_exception CarrierWave::Uploader::Base::ConfigurationError
     end
   end
 end
