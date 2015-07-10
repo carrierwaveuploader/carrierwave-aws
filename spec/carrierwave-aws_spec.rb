@@ -46,4 +46,18 @@ describe CarrierWave::Uploader::Base do
       expect(instance.aws_acl).to eq('public-read')
     end
   end
+
+  describe '#aws_signer' do
+    it 'allows proper signer object' do
+      signer_proc = -> (unsigned_url, options) { }
+
+      expect { uploader.aws_signer = signer_proc }.not_to raise_exception
+    end
+
+    it 'does not allow signer with unknown api' do
+      signer_proc = -> (unsigned_url) { }
+
+      expect { uploader.aws_signer = signer_proc }.to raise_exception
+    end
+  end
 end

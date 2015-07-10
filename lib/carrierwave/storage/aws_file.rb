@@ -93,7 +93,7 @@ module CarrierWave
       end
 
       def signer
-        uploader.aws_sign_urls.try(:fetch, :signer)
+        uploader.aws_signer
       end
     end
   end

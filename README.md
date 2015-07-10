@@ -61,9 +61,7 @@ CarrierWave.configure do |config|
 
   # Optional: Signing of download urls, e.g. for serving private
   # content through CloudFront.
-  config.aws_sign_urls = {
-    signer: -> { |unsigned_url, options| Aws::CF::Signer.sign_url unsigned_url, options }
-  }
+  config.aws_signer = -> { |unsigned_url, options| Aws::CF::Signer.sign_url unsigned_url, options }
 end
 ```
 
