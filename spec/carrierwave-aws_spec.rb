@@ -16,6 +16,17 @@ describe CarrierWave::Uploader::Base do
   describe '#aws_acl' do
     let(:derived_uploader) { FeatureUploader }
 
+    before do
+      # Reset uploader classes
+      if uploader.instance_variable_defined?('@aws_acl')
+        uploader.remove_instance_variable('@aws_acl')
+      end
+
+      if derived_uploader.instance_variable_defined?('@aws_acl')
+        derived_uploader.remove_instance_variable('@aws_acl')
+      end
+    end
+
     it 'allows known acess control values' do
       expect {
         uploader.aws_acl = 'private'
@@ -54,6 +65,27 @@ describe CarrierWave::Uploader::Base do
 
       expect(derived_uploader.aws_acl).to eq 'private'
       expect(instance.aws_acl).to eq 'private'
+    end
+
+    it 'can be overridden on a class level' do
+      uploader.aws_acl = 'public-read'
+      derived_uploader.aws_acl = 'private'
+
+      base = uploader.new
+      expect(base.aws_acl).to eq 'public-read'
+
+      instance = derived_uploader.new
+      expect(instance.aws_acl).to eq 'private'
+    end
+
+    it 'can lookup even if none configured' do
+      expect(uploader.instance_variable_defined?('@aws_acl')).to be false
+      expect(derived_uploader.instance_variable_defined?('@aws_acl')).to be false
+
+      instance = derived_uploader.new
+
+      expect { instance.aws_acl }.not_to raise_exception
+      expect(instance.aws_acl).to be_nil
     end
   end
 end
