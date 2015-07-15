@@ -14,6 +14,8 @@ describe CarrierWave::Uploader::Base do
   end
 
   describe '#aws_acl' do
+    let(:derived_uploader) { FeatureUploader }
+
     it 'allows known acess control values' do
       expect {
         uploader.aws_acl = 'private'
@@ -44,6 +46,14 @@ describe CarrierWave::Uploader::Base do
 
       expect(uploader.aws_acl).to eq('private')
       expect(instance.aws_acl).to eq('public-read')
+    end
+
+    it 'can be looked up from superclass' do
+      uploader.aws_acl = 'private'
+      instance = derived_uploader.new
+
+      expect(derived_uploader.aws_acl).to eq 'private'
+      expect(instance.aws_acl).to eq 'private'
     end
   end
 end
