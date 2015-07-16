@@ -77,15 +77,5 @@ describe CarrierWave::Uploader::Base do
       instance = derived_uploader.new
       expect(instance.aws_acl).to eq('private')
     end
-
-    it 'can lookup even if none configured' do
-      expect(uploader.instance_variable_defined?('@aws_acl')).to be false
-      expect(derived_uploader.instance_variable_defined?('@aws_acl')).to be false
-
-      instance = derived_uploader.new
-
-      expect { instance.aws_acl }.not_to raise_exception
-      expect(instance.aws_acl).to be_nil
-    end
   end
 end
