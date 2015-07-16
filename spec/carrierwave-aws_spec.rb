@@ -5,6 +5,10 @@ describe CarrierWave::Uploader::Base do
     Class.new(CarrierWave::Uploader::Base)
   end
 
+  let(:derived_uploader) do
+    Class.new(uploader)
+  end
+
   it 'inserts aws as a known storage engine' do
     uploader.configure do |config|
       expect(config.storage_engines).to have_key(:aws)
@@ -16,21 +20,7 @@ describe CarrierWave::Uploader::Base do
   end
 
   describe '#aws_acl' do
-    let(:derived_uploader) { FeatureUploader }
-
-    before do
-      # Reset uploader classes
-      if uploader.instance_variable_defined?('@aws_acl')
-        uploader.remove_instance_variable('@aws_acl')
-      end
-
-      if derived_uploader.instance_variable_defined?('@aws_acl')
-        derived_uploader.remove_instance_variable('@aws_acl')
-      end
-    end
-
-    it 'allows known acess control values' do
-      expect {
+    it 'allows known acess control values' do expect {
         uploader.aws_acl = 'private'
         uploader.aws_acl = 'public-read'
         uploader.aws_acl = 'authenticated-read'
