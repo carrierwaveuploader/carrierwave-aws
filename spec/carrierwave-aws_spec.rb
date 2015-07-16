@@ -20,7 +20,8 @@ describe CarrierWave::Uploader::Base do
   end
 
   describe '#aws_acl' do
-    it 'allows known acess control values' do expect {
+    it 'allows known acess control values' do
+      expect {
         uploader.aws_acl = 'private'
         uploader.aws_acl = 'public-read'
         uploader.aws_acl = 'authenticated-read'
