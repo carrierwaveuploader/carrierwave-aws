@@ -23,13 +23,10 @@ class CarrierWave::Uploader::Base
   add_config :aws_bucket
   add_config :aws_read_options
   add_config :aws_write_options
+  add_config :aws_acl
 
   configure do |config|
     config.storage_engines[:aws] = 'CarrierWave::Storage::AWS'
-  end
-
-  def self.aws_acl
-    @aws_acl
   end
 
   def self.aws_acl=(acl)
@@ -44,10 +41,6 @@ class CarrierWave::Uploader::Base
     end
 
     normalized
-  end
-
-  def aws_acl
-    @aws_acl || self.class.aws_acl
   end
 
   def aws_acl=(acl)
