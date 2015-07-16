@@ -1,8 +1,13 @@
+sudo: false
 language: ruby
 rvm:
-- 2.1.5
-- 2.2.2
-script: bundle exec rspec spec
+  - 2.1.5
+  - 2.2.2
+  - ruby-head
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+script: bin/rspec
 env:
   global:
   - secure: |-
