@@ -7,7 +7,7 @@ rvm:
 matrix:
   allow_failures:
     - rvm: ruby-head
-script: bin/rspec
+script: bundle exec rspec
 env:
   global:
   - secure: |-
