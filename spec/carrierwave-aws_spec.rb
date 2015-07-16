@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 describe CarrierWave::Uploader::Base do
-  let(:uploader) { CarrierWave::Uploader::Base }
+  let(:uploader) do
+    Class.new(CarrierWave::Uploader::Base)
+  end
 
   it 'inserts aws as a known storage engine' do
     uploader.configure do |config|
@@ -44,6 +46,14 @@ describe CarrierWave::Uploader::Base do
 
       expect(uploader.aws_acl).to eq('private')
       expect(instance.aws_acl).to eq('public-read')
+    end
+
+    it 'can be set with the configure block' do
+      uploader.configure do |config|
+        config.aws_acl = 'public-read'
+      end
+
+      expect(uploader.aws_acl).to eq('public-read')
     end
   end
 
