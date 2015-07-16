@@ -63,8 +63,8 @@ describe CarrierWave::Uploader::Base do
       uploader.aws_acl = 'private'
       instance = derived_uploader.new
 
-      expect(derived_uploader.aws_acl).to eq 'private'
-      expect(instance.aws_acl).to eq 'private'
+      expect(derived_uploader.aws_acl).to eq('private')
+      expect(instance.aws_acl).to eq('private')
     end
 
     it 'can be overridden on a class level' do
@@ -72,10 +72,10 @@ describe CarrierWave::Uploader::Base do
       derived_uploader.aws_acl = 'private'
 
       base = uploader.new
-      expect(base.aws_acl).to eq 'public-read'
+      expect(base.aws_acl).to eq('public-read')
 
       instance = derived_uploader.new
-      expect(instance.aws_acl).to eq 'private'
+      expect(instance.aws_acl).to eq('private')
     end
 
     it 'can lookup even if none configured' do
