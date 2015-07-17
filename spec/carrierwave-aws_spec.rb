@@ -81,16 +81,60 @@ describe CarrierWave::Uploader::Base do
   end
 
   describe '#aws_signer' do
-    it 'allows proper signer object' do
-      signer_proc = -> (unsigned_url, options) { }
+    let(:signer_proc) { -> (unsigned_url, options) { } }
+    let(:other_signer) { -> (unsigned_url, options) { } }
 
+    it 'allows proper signer object' do
       expect { uploader.aws_signer = signer_proc }.not_to raise_exception
     end
 
     it 'does not allow signer with unknown api' do
       signer_proc = -> (unsigned_url) { }
 
-      expect { uploader.aws_signer = signer_proc }.to raise_exception CarrierWave::Uploader::Base::ConfigurationError
+      expect { uploader.aws_signer = signer_proc }.to raise_exception(CarrierWave::Uploader::Base::ConfigurationError)
+    end
+
+    it 'can be overridden on an instance level' do
+      instance = uploader.new
+
+      uploader.aws_signer = signer_proc
+      instance.aws_signer = other_signer
+
+      expect(uploader.aws_signer).to eql(signer_proc)
+      expect(instance.aws_signer).to eql(other_signer)
+    end
+
+    it 'can be overridden on a class level' do
+      uploader.aws_signer = signer_proc
+      derived_uploader.aws_signer = other_signer
+
+      base = uploader.new
+      expect(base.aws_signer).to eq(signer_proc)
+
+      instance = derived_uploader.new
+      expect(instance.aws_signer).to eql(other_signer)
+    end
+
+    it 'can be looked up from superclass' do
+      uploader.aws_signer = signer_proc
+      instance = derived_uploader.new
+
+      expect(derived_uploader.aws_signer).to eq(signer_proc)
+      expect(instance.aws_signer).to eql(signer_proc)
+    end
+
+    it 'can be set with the configure block' do
+      uploader.configure do |config|
+        config.aws_signer = signer_proc
+      end
+
+      expect(uploader.aws_signer).to eql(signer_proc)
+    end
+
+    it 'can be set when passed as argument to the class getter method' do
+      uploader.aws_signer signer_proc
+
+      expect(uploader.aws_signer).to eql(signer_proc)
     end
   end
 end

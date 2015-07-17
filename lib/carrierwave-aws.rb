@@ -24,6 +24,7 @@ class CarrierWave::Uploader::Base
   add_config :aws_read_options
   add_config :aws_write_options
   add_config :aws_acl
+  add_config :aws_signer
 
   configure do |config|
     config.storage_engines[:aws] = 'CarrierWave::Storage::AWS'
@@ -43,8 +44,14 @@ class CarrierWave::Uploader::Base
     normalized
   end
 
-  def self.aws_signer
-    @aws_signer
+  def self.aws_signer(value = nil)
+    self.aws_signer = value if value
+
+    if instance_variable_defined?('@aws_signer')
+      @aws_signer
+    elsif superclass.respond_to? :aws_signer
+      superclass.aws_signer
+    end
   end
 
   def self.aws_signer=(signer)
@@ -52,7 +59,7 @@ class CarrierWave::Uploader::Base
   end
 
   def self.validated_signer(signer)
-    unless signer.instance_of?(Proc) && signer.arity == 2
+    unless signer.nil? || signer.instance_of?(Proc) && signer.arity == 2
       raise ConfigurationError.new("Invalid signer option. Signer proc has to respond to '.call(unsigned_url, options)'")
     end
 
@@ -64,10 +71,6 @@ class CarrierWave::Uploader::Base
   end
 
   def aws_signer
-    @aws_signer || self.class.aws_signer
-  end
-
-  def aws_signer=(signer)
-    @aws_signer = self.class.validated_signer(signer)
-  end
+    instance_variable_defined?('@aws_signer') ? @aws_signer : self.class.aws_signer
+ end
 end
