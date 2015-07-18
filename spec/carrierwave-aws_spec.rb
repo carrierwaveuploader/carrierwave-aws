@@ -31,7 +31,7 @@ describe CarrierWave::Uploader::Base do
     it 'does not allow unknown control values' do
       expect {
         uploader.aws_acl = 'everybody'
-      }.to raise_exception CarrierWave::Uploader::Base::ConfigurationError
+      }.to raise_exception(CarrierWave::Uploader::Base::ConfigurationError)
     end
 
     it 'normalizes the set value' do
