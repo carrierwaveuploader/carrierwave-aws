@@ -55,7 +55,7 @@ module CarrierWave
       end
 
       def url(options = {})
-        if uploader.aws_acl != :public_read
+        if uploader.aws_acl.to_s != 'public_read'
           authenticated_url(options)
         else
           public_url
