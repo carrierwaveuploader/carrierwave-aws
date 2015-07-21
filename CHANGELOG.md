@@ -1,3 +1,9 @@
+## Version 0.7.1 2015-07-21
+
+* Fix: Always compare the `aws_acl` as a string during url generation. This
+  prevents unexpected authenticated url generation when the acl type has a
+  mismatch.
+
 ## Version 0.7.0 2015-07-02
 
 * Revert to AWS-SDK v1. There are too many breaking changes between v1 and v2 to
