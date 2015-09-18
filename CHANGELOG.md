@@ -1,3 +1,10 @@
+## Version 1.0.0 2015-09-18
+
+* Added: ACL options are verified when they are set, and coerced into usable
+  values when possible.
+* Added: Specify an `aws_signer` lambda for use signing authenticated content
+  served through services like CloudFront.
+
 ## Version 1.0.0-rc.1 2015-07-02
 
 * Continues where 0.6.0 left off. This wraps AWS-SDK v2 and all of the breaking
