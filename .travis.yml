@@ -1,5 +1,6 @@
 sudo: false
 language: ruby
+cache: bundler
 rvm:
   - 2.1.5
   - 2.2.2
@@ -7,7 +8,6 @@ rvm:
 matrix:
   allow_failures:
     - rvm: ruby-head
-script: bundle exec rspec
 env:
   global:
   - secure: |-
