@@ -4,6 +4,8 @@ module CarrierWave
       attr_writer :file
       attr_accessor :uploader, :connection, :path, :aws_options
 
+      delegate :content_type, :delete, :exists?, :size, to: :file
+
       def initialize(uploader, connection, path)
         @uploader    = uploader
         @connection  = connection
@@ -21,18 +23,6 @@ module CarrierWave
         file.data.to_h
       end
 
-      def content_type
-        file.content_type
-      end
-
-      def delete
-        file.delete
-      end
-
-      def exists?
-        file.exists?
-      end
-
       def extension
         elements = path.split('.')
         elements.last if elements.size > 1
@@ -46,10 +36,6 @@ module CarrierWave
 
       def read
         file.get(aws_options.read_options).body.read
-      end
-
-      def size
-        file.content_length
       end
 
       def store(new_file)
