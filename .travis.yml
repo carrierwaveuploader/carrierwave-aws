@@ -10,16 +10,16 @@ matrix:
     - rvm: ruby-head
 env:
   global:
-  - secure: |-
-      A6i5I0Y+ifiJr2yotcjMBOZxRnhaPbuDTuMW3PMMUaqHsCc2A5Tqemenb7WG
-      awCHOE6i9fuO/qAOPR3iKVdkR7Qv//CDtFZ9pZ7uiqVxfz1kYbv4aoPm1IvJ
-      Kd6Nons/AjkD+yhobP8WgiIZI/QcSylDZYNCasTwQlfOCdYLnag=
-  - secure: |-
-      IE4oVY30L0OH10J/poiEZ1PyFZgPY7dH1FneJI5OeYJJ8GfEHoLuMJXgBmyX
-      mC2v2PGK0pQTKGKFVV1mLhKdCzeLRCSMFqNvVo6blSoMLZoM1kj3sbU0kiIW
-      qAgafLka3iyxQnPsvfmjLVei3h+HOUIUV6QmagjcMfZREHfTDZk=
-  - secure: |-
-      B75vnSCFTnQgCP4dmz78VN/WWj88Tpnh4cjUCU0cQjQ5M7oQ0KTbM0d7WDyf
-      rf0F+B9OihBtLNQWqjocRvNH0dU5OzBLCC9DVolUgNwOdNTHW2I7CwlxJ5t7
-      ljQTxzPP+tFASwzBHjywbo7n0EX3efT5UOZhbD9LZL93X4SOlyU=
-  - secure: Uv276ljIrpfYNE34zKnawA6rxchmMymTzMs3LRcmsCDawDhNmtEuoqeHLiZctFU0k40YDylwcDXDWJayVDSW97+ytMqFfQ6e7HkL06iNZPcAW8V0LJt4SrVzRGIm6ER9Xib57lXhOnfS0jcVxT/UuD0pegvYdZb0VhUedmqInP0=
+    - secure: |-
+        A6i5I0Y+ifiJr2yotcjMBOZxRnhaPbuDTuMW3PMMUaqHsCc2A5Tqemenb7WG
+        awCHOE6i9fuO/qAOPR3iKVdkR7Qv//CDtFZ9pZ7uiqVxfz1kYbv4aoPm1IvJ
+        Kd6Nons/AjkD+yhobP8WgiIZI/QcSylDZYNCasTwQlfOCdYLnag=
+    - secure: |-
+        IE4oVY30L0OH10J/poiEZ1PyFZgPY7dH1FneJI5OeYJJ8GfEHoLuMJXgBmyX
+        mC2v2PGK0pQTKGKFVV1mLhKdCzeLRCSMFqNvVo6blSoMLZoM1kj3sbU0kiIW
+        qAgafLka3iyxQnPsvfmjLVei3h+HOUIUV6QmagjcMfZREHfTDZk=
+    - secure: |-
+        B75vnSCFTnQgCP4dmz78VN/WWj88Tpnh4cjUCU0cQjQ5M7oQ0KTbM0d7WDyf
+        rf0F+B9OihBtLNQWqjocRvNH0dU5OzBLCC9DVolUgNwOdNTHW2I7CwlxJ5t7
+        ljQTxzPP+tFASwzBHjywbo7n0EX3efT5UOZhbD9LZL93X4SOlyU=
+    - AWS_REGION=us-east-1
