@@ -57,8 +57,8 @@ describe 'Storing Files', type: :feature do
     instance.store!(image)
     instance.retrieve_from_store!('image.png')
 
-    expected_url = "https://#{ENV['S3_BUCKET_NAME']}.s3-#{ENV['AWS_REGION']}.amazonaws.com/#{instance.path}"
-    expect(instance.url).to eq(expected_url)
+    expect(instance.url).to include(ENV['S3_BUCKET_NAME'])
+    expect(instance.url).to include(instance.path)
 
     image.close
     instance.file.delete
