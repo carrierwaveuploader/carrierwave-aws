@@ -1,9 +1,9 @@
 # Carrierwave AWS Storage
 
-[![Build Status](https://travis-ci.org/sorentwo/carrierwave-aws.png?branch=master)](https://travis-ci.org/sorentwo/carrierwave-aws)
-[![Code Climate](https://codeclimate.com/github/sorentwo/carrierwave-aws.png)](https://codeclimate.com/github/sorentwo/carrierwave-aws)
-[![Gem Version](https://badge.fury.io/rb/carrierwave-aws.png)](http://badge.fury.io/rb/carrierwave-aws)
-[![Dependency Status](https://gemnasium.com/sorentwo/carrierwave-aws.png)](https://gemnasium.com/sorentwo/carrierwave-aws)
+[![Build Status](https://travis-ci.org/sorentwo/carrierwave-aws.svg?branch=master)](https://travis-ci.org/sorentwo/carrierwave-aws)
+[![Code Climate](https://codeclimate.com/github/sorentwo/carrierwave-aws.svg)](https://codeclimate.com/github/sorentwo/carrierwave-aws)
+[![Gem Version](https://badge.fury.io/rb/carrierwave-aws.svg)](http://badge.fury.io/rb/carrierwave-aws)
+[![Dependency Status](https://gemnasium.com/sorentwo/carrierwave-aws.svg)](https://gemnasium.com/sorentwo/carrierwave-aws)
 
 Use the officially supported AWS-SDK library for S3 storage rather than relying
 on fog. There are several things going for it:
