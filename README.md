@@ -88,8 +88,29 @@ class MyUploader < Carrierwave::Uploader::Base
 end
 ```
 
-If you migrate from `fog` your uploader may be configured as `storage :fog`, simply comment out that line, or remove it. Another item particular to fog, you may have `url(query: {'my-header': 'my-value'})`.
+
+## Migrating From Fog
+
+If you migrate from `fog` your uploader may be configured as `storage :fog`, simply comment out that line, as in the following example, or remove that specific line. 
+
+```ruby
+class MyUploader < Carrierwave::Uploader::Base
+  # Storage configuration within the uploader supercedes the global CarrierWave
+  # config, so adjust accordingly...
+
+  # Choose what kind of storage to use for this uploader:
+  # storage :file
+  # storage :fog
+  storage :aws
+
+
+  # More comments below in your file....
+end
+```
+
+Another item particular to fog, you may have `url(query: {'my-header': 'my-value'})`.
 With `carrierwave-aws` the `query` part becomes obsolete, just use a hash of headers.
+If you skipped the section regarding Usage, you'll want to be sure everything is configured as it's explained in that section as well.
 
 ## Contributing
 
