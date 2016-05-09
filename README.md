@@ -28,6 +28,11 @@ Add this line to your application's Gemfile:
 gem 'carrierwave-aws'
 ```
 
+Run the bundle command from your shell to install it:
+```bash
+bundle install
+```
+
 ## Usage
 
 Configure and use it just like you would Fog. The only notable difference is
@@ -59,8 +64,7 @@ CarrierWave.configure do |config|
     region:            ENV.fetch('AWS_REGION') # Required
   }
 
-  # Optional: Signing of download urls, e.g. for serving private
-  # content through CloudFront.
+  # Optional: Signing of download urls, e.g. for serving private content through CloudFront.
   config.aws_signer = -> (unsigned_url, options) { Aws::CF::Signer.sign_url unsigned_url, options }
 end
 ```
@@ -72,11 +76,11 @@ If you have a custom uploader that specifies additional headers for each URL, pl
 ```ruby
 class MyUploader < Carrierwave::Uploader::Base
   # Storage configuration within the uploader supercedes the global CarrierWave
-  # config, so be sure that your uploader does not contain `storage :file`, or
+  # config, so either comment out `storage :file`, or remove that line, otherwise
   # AWS will not be used.
   storage :aws
 
-  # You can find full list of custom headers in AWS SDK documentation on
+  # You can find a full list of custom headers in AWS SDK documentation on
   # AWS::S3::S3Object
   def download_url(filename)
     url(response_content_disposition: %Q{attachment; filename="#{filename}"})
@@ -84,8 +88,29 @@ class MyUploader < Carrierwave::Uploader::Base
 end
 ```
 
-If you migrate from `fog` you probably have something like `url(query: {'my-header': 'my-value'})`.
+
+## Migrating From Fog
+
+If you migrate from `fog` your uploader may be configured as `storage :fog`, simply comment out that line, as in the following example, or remove that specific line. 
+
+```ruby
+class MyUploader < Carrierwave::Uploader::Base
+  # Storage configuration within the uploader supercedes the global CarrierWave
+  # config, so adjust accordingly...
+
+  # Choose what kind of storage to use for this uploader:
+  # storage :file
+  # storage :fog
+  storage :aws
+
+
+  # More comments below in your file....
+end
+```
+
+Another item particular to fog, you may have `url(query: {'my-header': 'my-value'})`.
 With `carrierwave-aws` the `query` part becomes obsolete, just use a hash of headers.
+If you skipped the section regarding Usage, you'll want to be sure everything is configured as it's explained in that section as well.
 
 ## Contributing
 
