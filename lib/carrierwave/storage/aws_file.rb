@@ -43,7 +43,10 @@ module CarrierWave
       end
 
       def copy_to(new_path)
-        bucket.object(new_path).copy_from(copy_source: "#{bucket.name}/#{file.key}")
+        bucket.object(new_path).copy_from(
+          copy_source: "#{bucket.name}/#{file.key}",
+          acl: uploader.aws_acl
+        )
       end
 
       def signed_url(options = {})
