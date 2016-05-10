@@ -19,7 +19,11 @@ describe 'Copying Files', type: :feature do
     copy_attributes = copy.file.attributes
     copy_attributes.reject! { |k,v| k == :last_modified }
 
+    copy_acl_grants = copy.file.file.acl.grants
+    original_acl_grants = original.file.file.acl.grants
+
     expect(copy_attributes).to eq(original_attributes)
+    expect(copy_acl_grants).to eq(original_acl_grants)
 
     image.close
     original.file.delete
