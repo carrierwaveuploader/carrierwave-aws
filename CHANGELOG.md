@@ -1,3 +1,8 @@
+## Unreleased
+
+* Fix `copy_to` method of `AWS::File` to use the same `aws_acl` configuration
+  used on original uploads so ACL on copied files matches original files.
+
 ## Version 1.0.0 2015-09-18
 
 * Added: ACL options are verified when they are set, and coerced into usable
