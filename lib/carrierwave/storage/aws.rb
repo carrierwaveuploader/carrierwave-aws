@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'aws-sdk-resources'
 
 module CarrierWave
@@ -23,7 +25,9 @@ module CarrierWave
 
       def connection
         @connection ||= begin
-          self.class.connection_cache[credentials] ||= ::Aws::S3::Resource.new(*credentials)
+          conn_cache = self.class.connection_cache
+
+          conn_cache[credentials] ||= ::Aws::S3::Resource.new(*credentials)
         end
       end
 

@@ -4,15 +4,15 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'carrierwave/aws/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = 'carrierwave-aws'
-  gem.version       = Carrierwave::AWS::VERSION
-  gem.authors       = ['Parker Selbert']
-  gem.email         = ['parker@sorentwo.com']
-  gem.description   = %q{Use aws-sdk for S3 support in CarrierWave}
-  gem.summary       = %q{A slimmer alternative to using Fog for S3 support in CarrierWave}
-  gem.homepage      = 'https://github.com/sorentwo/carrierwave-aws'
+  gem.name        = 'carrierwave-aws'
+  gem.version     = Carrierwave::AWS::VERSION
+  gem.authors     = ['Parker Selbert']
+  gem.email       = ['parker@sorentwo.com']
+  gem.homepage    = 'https://github.com/sorentwo/carrierwave-aws'
+  gem.description = 'Use aws-sdk for S3 support in CarrierWave'
+  gem.summary     = 'Native aws-sdk support for S3 in CarrierWave'
 
-  gem.files         = `git ls-files`.split($/)
+  gem.files         = `git ls-files -z lib spec`.split("\x0")
   gem.test_files    = gem.files.grep(%r{^(spec)/})
   gem.require_paths = ['lib']
 

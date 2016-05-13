@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CarrierWave
   module Storage
     class AWSFile
@@ -17,7 +19,7 @@ module CarrierWave
         @file ||= bucket.object(path)
       end
 
-      alias_method :to_file, :file
+      alias to_file file
 
       def attributes
         file.data.to_h
@@ -29,9 +31,9 @@ module CarrierWave
       end
 
       def filename(options = {})
-        if file_url = url(options)
-          CarrierWave::Support::UriFilename.filename(file_url)
-        end
+        file_url = url(options)
+
+        CarrierWave::Support::UriFilename.filename(file_url) if file_url
       end
 
       def read
@@ -39,7 +41,7 @@ module CarrierWave
       end
 
       def store(new_file)
-        !!file.put(aws_options.write_options(new_file))
+        file.put(aws_options.write_options(new_file))
       end
 
       def copy_to(new_path)

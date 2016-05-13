@@ -14,10 +14,10 @@ describe 'Copying Files', type: :feature do
     copy.retrieve_from_store!('image2.png')
 
     original_attributes = original.file.attributes
-    original_attributes.reject! { |k,v| k == :last_modified }
+    original_attributes.reject! { |key, _| key == :last_modified }
 
     copy_attributes = copy.file.attributes
-    copy_attributes.reject! { |k,v| k == :last_modified }
+    copy_attributes.reject! { |key, _| key == :last_modified }
 
     copy_acl_grants = copy.file.file.acl.grants
     original_acl_grants = original.file.file.acl.grants
@@ -30,4 +30,3 @@ describe 'Copying Files', type: :feature do
     copy.file.delete
   end
 end
-

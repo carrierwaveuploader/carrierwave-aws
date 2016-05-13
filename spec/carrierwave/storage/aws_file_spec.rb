@@ -2,20 +2,19 @@ require 'spec_helper'
 
 describe CarrierWave::Storage::AWSFile do
   let(:path)       { 'files/1/file.txt' }
-  let(:file)       { double(:file, content_type: 'content/type', path: '/file/path') }
+  let(:file)       { double(:file, content_type: 'octet', path: '/file') }
   let(:bucket)     { double(:bucket, object: file) }
   let(:connection) { double(:connection, bucket: bucket) }
 
   let(:uploader) do
     double(:uploader,
-      aws_bucket: 'example-com',
-      aws_acl: :'public-read',
-      aws_attributes: {},
-      asset_host: nil,
-      aws_signer: nil,
-      aws_read_options: { encryption_key: 'abc' },
-      aws_write_options: { encryption_key: 'def' }
-    )
+           aws_bucket: 'example-com',
+           aws_acl: :'public-read',
+           aws_attributes: {},
+           asset_host: nil,
+           aws_signer: nil,
+           aws_read_options: { encryption_key: 'abc' },
+           aws_write_options: { encryption_key: 'def' })
   end
 
   subject(:aws_file) do
@@ -58,14 +57,17 @@ describe CarrierWave::Storage::AWSFile do
       allow(uploader).to receive(:aws_acl) { :private }
       allow(uploader).to receive(:aws_authenticated_url_expiration) { 60 }
 
-      expect(file).to receive(:presigned_url).with(:get, { expires_in: 60 })
+      expect(file).to receive(:presigned_url).with(:get, expires_in: 60)
 
       aws_file.url
     end
 
     it 'requests an signed url if url signing is configured' do
       signature = 'Signature=QWERTZ&Key-Pair-Id=XYZ'
-      cloudfront_signer = -> (unsigned_url, options) { [unsigned_url, signature].join('?') }
+
+      cloudfront_signer = lambda do |unsigned_url, _|
+        [unsigned_url, signature].join('?')
+      end
 
       allow(uploader).to receive(:aws_signer) { cloudfront_signer }
       expect(file).to receive(:public_url) { 'http://example.com' }

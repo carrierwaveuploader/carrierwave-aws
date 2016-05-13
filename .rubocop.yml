@@ -13,6 +13,11 @@ Style/FrozenStringLiteralComment:
     - "*.gemspec"
     - "spec/**/*"
 
+Style/FileName:
+  Exclude:
+    - "lib/carrierwave-aws.rb"
+    - "spec/carrierwave-aws_spec.rb"
+
 Style/IfUnlessModifier:
   Enabled: false
 
@@ -26,3 +31,8 @@ Style/ModuleFunction:
 
 Style/IndentArray:
   Enabled: false
+
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%w': "[]"
+    '%W': "[]"

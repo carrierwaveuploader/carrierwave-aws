@@ -21,17 +21,17 @@ describe CarrierWave::Uploader::Base do
 
   describe '#aws_acl' do
     it 'allows known acess control values' do
-      expect {
+      expect do
         uploader.aws_acl = 'private'
         uploader.aws_acl = 'public-read'
         uploader.aws_acl = 'authenticated-read'
-      }.not_to raise_exception
+      end.not_to raise_exception
     end
 
     it 'does not allow unknown control values' do
-      expect {
+      expect do
         uploader.aws_acl = 'everybody'
-      }.to raise_exception(CarrierWave::Uploader::Base::ConfigurationError)
+      end.to raise_exception(CarrierWave::Uploader::Base::ConfigurationError)
     end
 
     it 'normalizes the set value' do
@@ -81,17 +81,18 @@ describe CarrierWave::Uploader::Base do
   end
 
   describe '#aws_signer' do
-    let(:signer_proc) { -> (unsigned_url, options) { } }
-    let(:other_signer) { -> (unsigned_url, options) { } }
+    let(:signer_proc) { -> (_unsigned, _options) {} }
+    let(:other_signer) { -> (_unsigned, _options) {} }
 
     it 'allows proper signer object' do
       expect { uploader.aws_signer = signer_proc }.not_to raise_exception
     end
 
     it 'does not allow signer with unknown api' do
-      signer_proc = -> (unsigned_url) { }
+      signer_proc = -> (_unsigned) {}
 
-      expect { uploader.aws_signer = signer_proc }.to raise_exception(CarrierWave::Uploader::Base::ConfigurationError)
+      expect { uploader.aws_signer = signer_proc }
+        .to raise_exception(CarrierWave::Uploader::Base::ConfigurationError)
     end
 
     it 'can be overridden on an instance level' do

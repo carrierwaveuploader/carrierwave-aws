@@ -33,7 +33,7 @@ describe CarrierWave::Storage::AWSOptions do
   describe '#write_options' do
     let(:file) { CarrierWave::SanitizedFile.new('spec/fixtures/image.png') }
 
-    it 'includes acl, content_type, body (file), aws_attributes, and aws_write_options' do
+    it 'includes all access and file options' do
       uploader.aws_write_options = { encryption_key: 'def' }
 
       write_options = options.write_options(file)
@@ -49,17 +49,13 @@ describe CarrierWave::Storage::AWSOptions do
     it 'works if aws_attributes is nil' do
       expect(uploader).to receive(:aws_attributes) { nil }
 
-      expect {
-        options.write_options(file)
-      }.to_not raise_error
+      expect { options.write_options(file) }.to_not raise_error
     end
 
     it 'works if aws_write_options is nil' do
       expect(uploader).to receive(:aws_write_options) { nil }
 
-      expect {
-        options.write_options(file)
-      }.to_not raise_error
+      expect { options.write_options(file) }.to_not raise_error
     end
   end
 
@@ -71,9 +67,7 @@ describe CarrierWave::Storage::AWSOptions do
     end
 
     it 'allows expiration to be overridden' do
-      expect(options.expiration_options(expires_in: 10)).to eq(
-        expires_in: 10
-      )
+      expect(options.expiration_options(expires_in: 10)).to eq(expires_in: 10)
     end
   end
 end

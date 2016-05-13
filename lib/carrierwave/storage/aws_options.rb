@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CarrierWave
   module Storage
     class AWSOptions
@@ -12,9 +14,10 @@ module CarrierWave
       end
 
       def write_options(new_file)
-        { acl:          uploader.aws_acl,
-          body:         new_file.to_file,
-          content_type: new_file.content_type,
+        {
+          acl: uploader.aws_acl,
+          body: new_file.to_file,
+          content_type: new_file.content_type
         }.merge(aws_attributes).merge(aws_write_options)
       end
 

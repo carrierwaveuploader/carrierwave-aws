@@ -1,8 +1,11 @@
 require 'spec_helper'
 
 describe CarrierWave::Storage::AWS do
-  let(:credentials) { { access_key_id: 'abc', secret_access_key: '123', region: 'us-east-1' } }
-  let(:uploader)    { double(:uploader, aws_credentials: credentials) }
+  let(:credentials) do
+    { access_key_id: 'abc', secret_access_key: '123', region: 'us-east-1' }
+  end
+
+  let(:uploader) { double(:uploader, aws_credentials: credentials) }
 
   subject(:storage) do
     CarrierWave::Storage::AWS.new(uploader)
