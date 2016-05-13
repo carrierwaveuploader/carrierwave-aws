@@ -1,10 +1,20 @@
-require 'bundler'
+require 'bundler/setup'
 require 'bundler/gem_tasks'
 
 Bundler.setup
 
-require 'rspec/core/rake_task'
+begin
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new(:spec)
+rescue LoadError
+  puts 'rspec not loaded'
+end
 
-RSpec::Core::RakeTask.new(:spec)
+begin
+  require 'rubocop/rake_task'
+  RuboCop::RakeTask.new
+rescue LoadError
+  puts 'rubocop not loaded'
+end
 
-task default: :spec
+task default: [:rubocop, :spec]

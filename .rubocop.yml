@@ -1,0 +1,28 @@
+AllCops:
+  Exclude:
+    - "bin/*"
+    - "tmp/**/*"
+    - "vendor/**/*"
+  TargetRubyVersion: 2.3
+
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: always
+  Exclude:
+    - "Gemfile*"
+    - "Rakefile"
+    - "*.gemspec"
+    - "spec/**/*"
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+# Documentation is coming
+Style/Documentation:
+  Enabled: false
+
+# Extend self preserves private methods
+Style/ModuleFunction:
+  Enabled: false
+
+Style/IndentArray:
+  Enabled: false
