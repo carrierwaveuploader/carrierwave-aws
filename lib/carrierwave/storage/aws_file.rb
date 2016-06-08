@@ -41,7 +41,11 @@ module CarrierWave
       end
 
       def store(new_file)
-        file.put(aws_options.write_options(new_file))
+        if uploader.path
+          file.upload_file(uploader.path, aws_options.write_options(new_file))
+        else
+          file.put(aws_options.write_options(new_file))
+        end
       end
 
       def copy_to(new_path)
