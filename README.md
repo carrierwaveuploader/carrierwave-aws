@@ -64,14 +64,18 @@ CarrierWave.configure do |config|
     region:            ENV.fetch('AWS_REGION') # Required
   }
 
-  # Optional: Signing of download urls, e.g. for serving private content through CloudFront.
-  config.aws_signer = -> (unsigned_url, options) { Aws::CF::Signer.sign_url unsigned_url, options }
+  # Optional: Signing of download urls, e.g. for serving private content through
+  # CloudFront. Be sure you have the `aws_cf_signer` gem installed:
+  # config.aws_signer = -> (unsigned_url, options) do
+  #   Aws::CF::Signer.sign_url(unsigned_url, options)
+  # end
 end
 ```
 
 ### Custom options for AWS URLs
 
-If you have a custom uploader that specifies additional headers for each URL, please try the following example:
+If you have a custom uploader that specifies additional headers for each URL,
+please try the following example:
 
 ```ruby
 class MyUploader < Carrierwave::Uploader::Base
@@ -91,7 +95,9 @@ end
 
 ## Migrating From Fog
 
-If you migrate from `fog` your uploader may be configured as `storage :fog`, simply comment out that line, as in the following example, or remove that specific line. 
+If you migrate from `fog` your uploader may be configured as `storage :fog`,
+simply comment out that line, as in the following example, or remove that
+specific line.
 
 ```ruby
 class MyUploader < Carrierwave::Uploader::Base
@@ -109,8 +115,9 @@ end
 ```
 
 Another item particular to fog, you may have `url(query: {'my-header': 'my-value'})`.
-With `carrierwave-aws` the `query` part becomes obsolete, just use a hash of headers.
-If you skipped the section regarding Usage, you'll want to be sure everything is configured as it's explained in that section as well.
+With `carrierwave-aws` the `query` part becomes obsolete, just use a hash of
+headers. Please read [usage][#usage] for a more detailed explination about
+configuration.
 
 ## Contributing
 
