@@ -65,7 +65,8 @@ CarrierWave.configure do |config|
   }
 
   # Optional: Signing of download urls, e.g. for serving private content through
-  # CloudFront. Be sure you have the `aws_cf_signer` gem installed:
+  # CloudFront. Be sure you have the `cloudfront-signer` gem installed and
+  # configured:
   # config.aws_signer = -> (unsigned_url, options) do
   #   Aws::CF::Signer.sign_url(unsigned_url, options)
   # end
