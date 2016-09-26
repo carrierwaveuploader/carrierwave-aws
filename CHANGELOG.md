@@ -1,3 +1,10 @@
+## Version 1.0.2 2016-09-26
+
+* Fixed: Use `Aws.eager_load` to bypass autoloading for the `S3` resource. This
+  prevents a race condition in multi threaded environments where an undefined
+  error is raised for `Aws::S3::Resource` on any request that loads an uploaded
+  file.
+
 ## Version 1.0.1 2016-05-13
 
 * Fixed: The `copy_to` method of `AWS::File` now uses the same `aws_acl`
