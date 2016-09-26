@@ -2,6 +2,8 @@
 
 require 'aws-sdk-resources'
 
+Aws.eager_autoload!(services: ['S3'])
+
 module CarrierWave
   module Storage
     class AWS < Abstract
