@@ -52,7 +52,7 @@ module CarrierWave
       end
 
       def signed_url(options = {})
-        signer.call(public_url, options)
+        signer.call(public_url.dup, options)
       end
 
       def authenticated_url(options = {})
