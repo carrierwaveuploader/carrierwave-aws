@@ -81,15 +81,15 @@ describe CarrierWave::Uploader::Base do
   end
 
   describe '#aws_signer' do
-    let(:signer_proc) { -> (_unsigned, _options) {} }
-    let(:other_signer) { -> (_unsigned, _options) {} }
+    let(:signer_proc) { ->(_unsigned, _options) {} }
+    let(:other_signer) { ->(_unsigned, _options) {} }
 
     it 'allows proper signer object' do
       expect { uploader.aws_signer = signer_proc }.not_to raise_exception
     end
 
     it 'does not allow signer with unknown api' do
-      signer_proc = -> (_unsigned) {}
+      signer_proc = ->(_unsigned) {}
 
       expect { uploader.aws_signer = signer_proc }
         .to raise_exception(CarrierWave::Uploader::Base::ConfigurationError)
