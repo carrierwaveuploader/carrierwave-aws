@@ -44,6 +44,22 @@ describe CarrierWave::Storage::AWSFile do
     end
   end
 
+  describe '#read' do
+    let(:s3_object) { double('Aws::S3::Object') }
+    before          { aws_file.file = s3_object }
+
+    it 'reads the retrieved body if called without block' do
+      expect(s3_object).to receive_message_chain('get.body.read')
+      aws_file.read
+    end
+
+    it 'does not retrieve body if block given' do
+      proc = Proc.new { }
+      expect(s3_object).to receive('get')
+      expect(aws_file.read(&proc)).to be_nil
+    end
+  end
+
   describe '#url' do
     it 'requests a public url if acl is public readable' do
       allow(uploader).to receive(:aws_acl) { :'public-read' }
