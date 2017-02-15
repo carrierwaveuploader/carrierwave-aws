@@ -117,7 +117,7 @@ end
 
 Another item particular to fog, you may have `url(query: {'my-header': 'my-value'})`.
 With `carrierwave-aws` the `query` part becomes obsolete, just use a hash of
-headers. Please read [Usage](#Usage) for a more detailed explination about
+headers. Please read [Usage](#Usage) for a more detailed explanation about
 configuration.
 
 ## Contributing
