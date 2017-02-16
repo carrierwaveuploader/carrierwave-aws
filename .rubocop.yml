@@ -5,6 +5,10 @@ AllCops:
     - "vendor/**/*"
   TargetRubyVersion: 2.3
 
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*"
+
 Style/FrozenStringLiteralComment:
   EnforcedStyle: always
   Exclude:

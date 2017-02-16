@@ -2,5 +2,5 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'coveralls', require: false
-gem 'rubocop', require: false
+gem 'coveralls', '~> 0.8.19', require: false
+gem 'rubocop', '~> 0.47.1', require: false
