@@ -56,7 +56,7 @@ describe CarrierWave::Storage::AWSFile do
 
     it 'does not retrieve body if block given' do
       aws_file.file = s3_object
-      block = Proc.new {}
+      block = proc {}
 
       expect(s3_object).to receive('get')
       expect(aws_file.read(&block)).to be_nil
