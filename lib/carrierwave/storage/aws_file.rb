@@ -37,7 +37,13 @@ module CarrierWave
       end
 
       def read
-        file.get(aws_options.read_options).body.read
+        read_options = aws_options.read_options
+        if block_given?
+          file.get(read_options) { |chunk| yield chunk }
+          nil
+        else
+          file.get(read_options).body.read
+        end
       end
 
       def store(new_file)
