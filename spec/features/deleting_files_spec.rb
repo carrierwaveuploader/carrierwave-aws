@@ -9,6 +9,5 @@ describe 'Deleting Files', type: :feature do
     instance.store!(image)
   end
 
-  it 'deletes the image when assigned a `nil` value' do
-  end
+  it 'deletes the image when assigned a `nil` value'
 end
