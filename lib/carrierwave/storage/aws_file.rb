@@ -47,12 +47,23 @@ module CarrierWave
       end
 
       def store(new_file)
-        file.put(aws_options.write_options(new_file))
+        if new_file.is_a?(self.class)
+          new_file.move_to(path)
+        else
+          file.put(aws_options.write_options(new_file))
+        end
       end
 
       def copy_to(new_path)
         bucket.object(new_path).copy_from(
           copy_source: "#{bucket.name}/#{file.key}",
+          acl: uploader.aws_acl
+        )
+      end
+
+      def move_to(new_path)
+        file.move_to(
+          "#{bucket.name}/#{new_path}",
           acl: uploader.aws_acl
         )
       end
