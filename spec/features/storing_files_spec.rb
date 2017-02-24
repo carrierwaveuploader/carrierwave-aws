@@ -63,4 +63,32 @@ describe 'Storing Files', type: :feature do
     image.close
     instance.file.delete
   end
+
+  it 'uploads the cache file to the configured bucket' do
+    instance.cache!(image)
+    instance.retrieve_from_cache!(instance.cache_name)
+
+    expect(instance.file.size).to be_nonzero
+    expect(image.size).to eq(instance.file.size)
+
+    image.close
+    instance.file.delete
+  end
+
+  it 'moves cached files to final location when storing' do
+    instance.cache!(image)
+    cache_name = instance.cache_name
+    instance.store!
+
+    instance.retrieve_from_cache!(cache_name)
+    expect(instance.file).not_to exist
+
+    instance.retrieve_from_store!('image.png')
+    expect(instance.file.size).to eq(image.size)
+    expect(instance.file.read).to eq(image.read)
+    expect(instance.file.read).to eq(instance.file.read)
+
+    image.close
+    instance.file.delete
+  end
 end
