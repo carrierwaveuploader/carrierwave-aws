@@ -1,3 +1,12 @@
+## Version 1.1.0 2017-02-24
+
+* Added: Enable using AWS for cache storage, making it easy to do direct file
+  uploads. [Fabian Schwahn]
+* Added: Block support for reading from AWS files. This prevents dumping the
+  entire object into memory, which is a problem with large objects. [Thomas Scholz]
+* Fixed: Duplicate the `public_url` before signing. All of the strings are
+  frozen, and some cloud signing methods attempt to mutate the url.
+
 ## Version 1.0.2 2016-09-26
 
 * Fixed: Use `Aws.eager_load` to bypass autoloading for the `S3` resource. This
