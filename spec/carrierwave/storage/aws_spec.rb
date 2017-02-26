@@ -23,7 +23,9 @@ describe CarrierWave::Storage::AWS do
     end
 
     it 'caches connections by credentials' do
-      expect(storage.connection).to eq(storage.connection)
+      new_storage = CarrierWave::Storage::AWS.new(uploader)
+
+      expect(storage.connection).to be(new_storage.connection)
     end
   end
 end
