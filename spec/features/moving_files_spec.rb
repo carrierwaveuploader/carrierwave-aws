@@ -13,7 +13,7 @@ describe 'Moving Files', type: :feature do
     original_attributes = original.file.attributes.reject(&without_timestamp)
     original_acl_grants = original.file.file.acl.grants
 
-    original.file.move_to('uploads/image2.png')
+    original.file.move_to("#{original.store_dir}/image2.png")
 
     move = FeatureUploader.new
     move.retrieve_from_store!('image2.png')

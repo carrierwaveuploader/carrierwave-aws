@@ -8,16 +8,15 @@ describe 'Copying Files', type: :feature do
     original.store!(image)
     original.retrieve_from_store!('image.png')
 
-    original.file.copy_to('uploads/image2.png')
+    without_timestamp = ->(key, _) { key == :last_modified }
+
+    original.file.copy_to("#{original.store_dir}/image2.png")
 
     copy = FeatureUploader.new
     copy.retrieve_from_store!('image2.png')
 
-    original_attributes = original.file.attributes
-    original_attributes.reject! { |key, _| key == :last_modified }
-
-    copy_attributes = copy.file.attributes
-    copy_attributes.reject! { |key, _| key == :last_modified }
+    original_attributes = original.file.attributes.reject(&without_timestamp)
+    copy_attributes = copy.file.attributes.reject(&without_timestamp)
 
     copy_acl_grants = copy.file.file.acl.grants
     original_acl_grants = original.file.file.acl.grants

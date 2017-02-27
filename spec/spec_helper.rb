@@ -1,5 +1,8 @@
 require 'carrierwave'
 require 'carrierwave-aws'
+require 'securerandom'
+
+STORE_DIR = ENV['TRAVIS_JOB_NUMBER'] || SecureRandom.hex(5)
 
 def source_environment_file!
   return unless File.exist?('.env')
@@ -11,6 +14,10 @@ def source_environment_file!
 end
 
 FeatureUploader = Class.new(CarrierWave::Uploader::Base) do
+  def store_dir
+    STORE_DIR
+  end
+
   def filename
     'image.png'
   end
