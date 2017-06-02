@@ -6,7 +6,7 @@ module CarrierWave
       attr_writer :file
       attr_accessor :uploader, :connection, :path, :aws_options
 
-      delegate :content_type, :delete, :exists?, :size, to: :file
+      delegate :content_type, :delete, :exists?, to: :file
 
       def initialize(uploader, connection, path)
         @uploader    = uploader
@@ -17,6 +17,12 @@ module CarrierWave
 
       def file
         @file ||= bucket.object(path)
+      end
+
+      def size
+        file.size
+      rescue Aws::S3::Errors::NotFound
+        nil
       end
 
       alias to_file file
