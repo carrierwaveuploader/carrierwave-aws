@@ -56,7 +56,7 @@ module CarrierWave
         if new_file.is_a?(self.class)
           new_file.move_to(path)
         else
-          file.put(aws_options.write_options(new_file))
+          file.upload_file(new_file.path, aws_options.write_options(new_file))
         end
       end
 

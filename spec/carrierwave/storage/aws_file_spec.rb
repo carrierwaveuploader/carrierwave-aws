@@ -101,4 +101,29 @@ describe CarrierWave::Storage::AWSFile do
       expect(aws_file.url).to eq('http://example.com/files/1/file.txt')
     end
   end
+
+  describe '#store' do
+    context 'when new_file is an AWSFile' do
+      let(:new_file) do
+        CarrierWave::Storage::AWSFile.new(uploader, connection, path)
+      end
+
+      it 'moves the object' do
+        expect(new_file).to receive(:move_to).with(path)
+        aws_file.store(new_file)
+      end
+    end
+
+    context 'when new file if a SanitizedFile' do
+      let(:new_file) do
+        CarrierWave::SanitizedFile.new('spec/fixtures/image.png')
+      end
+
+      it 'uploads the file using with multipart support' do
+        expect(file).to(receive(:upload_file)
+                              .with(new_file.path, an_instance_of(Hash)))
+        aws_file.store(new_file)
+      end
+    end
+  end
 end
