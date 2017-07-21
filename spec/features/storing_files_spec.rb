@@ -20,6 +20,26 @@ describe 'Storing Files', type: :feature do
     instance.file.delete
   end
 
+  it 'uploads a StringIO to the configured bucket' do
+    # https://github.com/carrierwaveuploader/carrierwave/wiki/How-to:-Upload-from-a-string-in-Rails-3-or-later
+    io = StringIO.new(image.read)
+
+    def io.original_filename
+      'image.png'
+    end
+    image.rewind
+
+    instance.store!(io)
+    instance.retrieve_from_store!('image.png')
+
+    expect(instance.file.size).to eq(image.size)
+    expect(instance.file.read).to eq(image.read)
+    expect(instance.file.read).to eq(instance.file.read)
+
+    image.close
+    instance.file.delete
+  end
+
   it 'retrieves the attributes for a stored file' do
     instance.store!(image)
     instance.retrieve_from_store!('image.png')
