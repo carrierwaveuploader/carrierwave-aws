@@ -1,3 +1,14 @@
+## Version 1.2.0 2017-07-24
+
+* Changed: Add support for large uploads via `#upload_file` rather than `#put`.
+    * Manages multipart uploads for objects larger than 15MB.
+    * Correctly opens files in binary mode to avoid encoding issues.
+    * Uses multiple threads for uploading parts of large objects in parallel.
+  See # #116, thanks to [Ylan Segal](@ylansegal).
+* Changed: Upgrade expected `aws-sdk` to `2.1`
+* Fixed: Return `nil` rather than raising an error for `File#size` when the file
+  can't be found.
+
 ## Version 1.1.0 2017-02-24
 
 * Added: Enable using AWS for cache storage, making it easy to do direct file
