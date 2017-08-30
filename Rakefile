@@ -17,4 +17,4 @@ rescue LoadError
   puts 'rubocop not loaded'
 end
 
-task default: [:rubocop, :spec]
+task default: %i[rubocop spec]

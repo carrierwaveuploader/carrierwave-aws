@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-require 'aws-sdk-resources'
-
-Aws.eager_autoload!(services: ['S3'])
+require 'aws-sdk-s3'
 
 module CarrierWave
   module Storage
