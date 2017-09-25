@@ -13,6 +13,7 @@ Gem::Specification.new do |gem|
   gem.homepage = 'https://github.com/sorentwo/carrierwave-aws'
   gem.description = 'Use aws-sdk for S3 support in CarrierWave'
   gem.summary = 'Native aws-sdk support for S3 in CarrierWave'
+  gem.license = 'MIT'
 
   gem.files = `git ls-files -z lib spec`.split("\x0")
   gem.test_files = gem.files.grep(%r{^(spec)/})
