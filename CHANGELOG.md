@@ -1,3 +1,7 @@
+## Version 1.3.0 2017-09-27
+
+* Changed: Rely on the smaller and more specific `aws-sdk-s3` gem.
+
 ## Version 1.2.0 2017-07-24
 
 * Changed: Add support for large uploads via `#upload_file` rather than `#put`.
