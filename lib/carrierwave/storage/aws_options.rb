@@ -21,6 +21,13 @@ module CarrierWave
         }.merge(aws_attributes).merge(aws_write_options)
       end
 
+      def move_options
+        {
+          acl: uploader.aws_acl
+        }.merge(aws_attributes).merge(aws_write_options)
+      end
+      alias copy_options move_options
+
       def expiration_options(options = {})
         uploader_expiration = uploader.aws_authenticated_url_expiration
 
