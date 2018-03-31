@@ -3,6 +3,8 @@
 module CarrierWave
   module Storage
     class AWSOptions
+      MULTIPART_TRESHOLD = 15 * 1024 * 1024
+
       attr_reader :uploader
 
       def initialize(uploader)
@@ -20,6 +22,14 @@ module CarrierWave
           content_type: new_file.content_type
         }.merge(aws_attributes).merge(aws_write_options)
       end
+
+      def move_options(file)
+        {
+          acl: uploader.aws_acl,
+          multipart_copy: file.size >= MULTIPART_TRESHOLD
+        }.merge(aws_attributes).merge(aws_write_options)
+      end
+      alias copy_options move_options
 
       def expiration_options(options = {})
         uploader_expiration = uploader.aws_authenticated_url_expiration
