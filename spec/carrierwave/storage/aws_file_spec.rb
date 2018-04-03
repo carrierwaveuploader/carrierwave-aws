@@ -126,4 +126,12 @@ describe CarrierWave::Storage::AWSFile do
       end
     end
   end
+
+  describe '#public_url' do
+    it 'uri-encodes the path' do
+      allow(uploader).to receive(:asset_host) { 'http://example.com' }
+      aws_file.path = 'uploads/images/jekyll+and+hyde.txt'
+      expect(aws_file.public_url).to eq 'http://example.com/uploads/images/jekyll%2Band%2Bhyde.txt'
+    end
+  end
 end

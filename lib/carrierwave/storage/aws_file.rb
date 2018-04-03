@@ -84,7 +84,7 @@ module CarrierWave
 
       def public_url
         if uploader.asset_host
-          "#{uploader.asset_host}/#{path}"
+          "#{uploader.asset_host}/#{uri_path}"
         else
           file.public_url.to_s
         end
@@ -108,6 +108,10 @@ module CarrierWave
 
       def signer
         uploader.aws_signer
+      end
+
+      def uri_path
+        path.gsub(%r{[^/]+}) { |segment| Seahorse::Util.uri_escape(segment) }
       end
     end
   end
