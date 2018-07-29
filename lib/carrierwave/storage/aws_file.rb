@@ -93,10 +93,10 @@ module CarrierWave
       def url(options = {})
         if signer
           signed_url(options)
-        elsif uploader.aws_acl.to_s != 'public-read'
-          authenticated_url(options)
-        else
+        elsif public?
           public_url
+        else
+          authenticated_url(options)
         end
       end
 
@@ -112,6 +112,10 @@ module CarrierWave
 
       def uri_path
         path.gsub(%r{[^/]+}) { |segment| Seahorse::Util.uri_escape(segment) }
+      end
+
+      def public?
+        uploader.aws_acl.to_s == 'public-read' || uploader.asset_host_public
       end
     end
   end

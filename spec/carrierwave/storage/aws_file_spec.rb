@@ -72,9 +72,19 @@ describe CarrierWave::Storage::AWSFile do
       aws_file.url
     end
 
+    it 'requests a public url if asset_host_public' do
+      allow(uploader).to receive(:aws_acl) { :'authenticated-read' }
+      allow(uploader).to receive(:asset_host_public) { true }
+
+      expect(file).to receive(:public_url)
+
+      aws_file.url
+    end
+
     it 'requests an authenticated url if acl is not public readable' do
       allow(uploader).to receive(:aws_acl) { :private }
       allow(uploader).to receive(:aws_authenticated_url_expiration) { 60 }
+      allow(uploader).to receive(:asset_host_public) { false }
 
       expect(file).to receive(:presigned_url).with(:get, expires_in: 60)
 

@@ -29,6 +29,7 @@ module CarrierWave
       add_config :aws_write_options
       add_config :aws_acl
       add_config :aws_signer
+      add_config :asset_host_public
 
       configure do |config|
         config.storage_engines[:aws] = 'CarrierWave::Storage::AWS'
@@ -82,6 +83,10 @@ module CarrierWave
         else
           self.class.aws_signer
         end
+      end
+
+      def asset_public_host
+        @asset_public_host || false
       end
     end
   end
