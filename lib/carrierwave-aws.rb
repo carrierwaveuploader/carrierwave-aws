@@ -85,8 +85,8 @@ module CarrierWave
         end
       end
 
-      def asset_public_host
-        @asset_public_host || false
+      def asset_host_public
+        @asset_host_public || false
       end
     end
   end
