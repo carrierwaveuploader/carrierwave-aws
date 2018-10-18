@@ -42,7 +42,7 @@ the use of `aws_bucket` instead of `fog_directory`, and `aws_acl` instead of
 ```ruby
 CarrierWave.configure do |config|
   config.storage    = :aws
-  config.aws_bucket = ENV.fetch('S3_BUCKET_NAME')
+  config.aws_bucket = ENV.fetch('S3_BUCKET_NAME') # for AWS-side bucket access permissions config, see section below
   config.aws_acl    = 'public-read'
 
   # Optionally define an asset host for configurations that are fronted by a
@@ -95,6 +95,26 @@ class MyUploader < Carrierwave::Uploader::Base
 end
 ```
 
+### Configure the role for bucket access 
+
+The IAM role accessing the AWS bucket specified when configuring `CarrierWave` needs to be given access permissions to that bucket. Apart from the obvious permissions required depending on what you want to do (read, write, delete…), you need to grant the `s3:PutObjectAcl` permission ([a permission to manipulate single objects´ access permissions](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTacl.html)) lest you receive an `AccessDenied` error. The policy for the role will look something like this:
+
+```yaml
+PolicyDocument:
+  Version: '2012-10-17'
+  Statement:
+  - Effect: Allow
+    Action:
+    - s3:ListBucket
+    Resource: !Sub 'arn:aws:s3:::${BucketName}'
+  - Effect: Allow
+    Action:
+    - s3:PutObject
+    - s3:PutObjectAcl
+    - s3:GetObject
+    - s3:DeleteObject
+    Resource: !Sub 'arn:aws:s3:::${BucketName}/*'
+```
 
 ## Migrating From Fog
 
