@@ -116,6 +116,8 @@ PolicyDocument:
     Resource: !Sub 'arn:aws:s3:::${BucketName}/*'
 ```
 
+Remember to also unblock ACL changes in the bucket settings, in `Permissions > Public access settings > Manage public access control lists (ACLs)`.
+
 ## Migrating From Fog
 
 If you migrate from `fog` your uploader may be configured as `storage :fog`,
