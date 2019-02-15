@@ -43,12 +43,11 @@ the use of `aws_bucket` instead of `fog_directory`, and `aws_acl` instead of
 CarrierWave.configure do |config|
   config.storage    = :aws
   config.aws_bucket = ENV.fetch('S3_BUCKET_NAME') # for AWS-side bucket access permissions config, see section below
-  config.aws_acl    = 'public-read'
+  config.aws_acl    = 'private'
 
   # Optionally define an asset host for configurations that are fronted by a
   # content host, such as CloudFront.
   config.asset_host = 'http://example.com'
-  config.asset_host_public = true
 
   # The maximum period for authenticated_urls is only 7 days.
   config.aws_authenticated_url_expiration = 60 * 60 * 24 * 7
