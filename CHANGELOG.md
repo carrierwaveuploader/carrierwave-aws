@@ -1,3 +1,5 @@
+* Changed: `aws_attributes` now supports Proc objects. [Marcus Ilgner]
+
 ## Version 1.3.0 2017-09-27
 
 * Changed: Rely on the smaller and more specific `aws-sdk-s3` gem.
