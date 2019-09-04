@@ -1,4 +1,16 @@
-* Changed: `aws_attributes` now supports Proc objects. [Marcus Ilgner]
+## Unreleased
+
+## Version 1.4.0 2019-09-03
+
+* Added: Use `aws_options` for copying and moving files [Fabian Schwahn]
+* Added: Add support for serving from a private bucket via a public CDN [Rod
+  Xavier]
+* Changed: Support using a lambda for `aws_attributes` as a collection of options
+  [Marcus Ilgner]
+* Changed: Enable `multipart_copy` for copying / moving files that are larger
+  than 15mb [Fabian Schwahn]
+* Changed: Bumpt the CarrierWave version constraint to allow 2.0
+* Fixed: URL encode paths when constructing `public_url` for objects
 
 ## Version 1.3.0 2017-09-27
 
