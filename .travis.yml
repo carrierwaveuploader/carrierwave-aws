@@ -2,12 +2,8 @@ sudo: false
 language: ruby
 cache: bundler
 rvm:
-  - 2.3.0
-  - 2.4.0
-  - ruby-head
-matrix:
-  allow_failures:
-    - rvm: ruby-head
+  - 2.5
+  - 2.6
 env:
   global:
     - secure: |-
