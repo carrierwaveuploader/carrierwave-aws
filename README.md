@@ -73,6 +73,15 @@ CarrierWave.configure do |config|
   # end
 end
 ```
+### Custom options for S3 endpoint
+
+If you are using a non-standard endpoint for S3 service (eg: Swiss-based Exoscale S3) you can override it like this
+
+```ruby
+    config.aws_credentials.config = AWS.config({
+        s3_endpoint: 'my.custom.s3.service.com'
+    })
+```
 
 ### Custom options for AWS URLs
 
