@@ -6,7 +6,7 @@ module CarrierWave
       def self.filename(url)
         path = url.split('?').first
 
-        URI.decode(path).gsub(%r{.*/(.*?$)}, '\1')
+        CGI.unescape(path).gsub(%r{.*/(.*?$)}, '\1')
       end
     end
   end
