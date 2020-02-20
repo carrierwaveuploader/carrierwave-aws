@@ -86,7 +86,11 @@ module CarrierWave
       end
 
       def asset_host_public
-        @asset_host_public || false
+        if instance_variable_defined?('@asset_host_public')
+          @asset_host_public
+        else
+          self.class.asset_host_public
+        end || false
       end
     end
   end
