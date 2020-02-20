@@ -138,4 +138,43 @@ describe CarrierWave::Uploader::Base do
       expect(uploader.aws_signer).to eql(signer_proc)
     end
   end
+
+  describe '#asset_host_public' do
+    it 'can be overridden on an instance level' do
+      instance = uploader.new
+
+      uploader.asset_host_public = true
+      instance.asset_host_public = false
+
+      expect(uploader.asset_host_public).to eq(true)
+      expect(instance.asset_host_public).to eq(false)
+    end
+
+    it 'can be looked up from superclass' do
+      uploader.asset_host_public = true
+      instance = derived_uploader.new
+
+      expect(derived_uploader.asset_host_public).to eq(true)
+      expect(instance.asset_host_public).to eq(true)
+    end
+
+    it 'can be overridden on a class level' do
+      uploader.asset_host_public = true
+      derived_uploader.asset_host_public = false
+
+      base = uploader.new
+      expect(base.asset_host_public).to eq(true)
+
+      instance = derived_uploader.new
+      expect(instance.asset_host_public).to eq(false)
+    end
+
+    it 'can be set with the configure block' do
+      uploader.configure do |config|
+        config.asset_host_public = true
+      end
+
+      expect(uploader.asset_host_public).to eq(true)
+    end
+  end
 end
