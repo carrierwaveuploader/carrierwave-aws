@@ -1,5 +1,12 @@
 ## Unreleased
 
+## Version 1.5.0 2020-04-01
+
+* Fix Setting `asset_host_public`, which was removed in a recent version of
+  CarrierWave.
+* Replace `URI.decode` with `CGI.unescape`, as the former is deprecated
+* Relax `CarrierWave` version constraint to any major version matching 2.0
+
 ## Version 1.4.0 2019-09-03
 
 * Added: Use `aws_options` for copying and moving files [Fabian Schwahn]
