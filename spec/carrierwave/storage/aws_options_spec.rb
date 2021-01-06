@@ -54,7 +54,7 @@ describe CarrierWave::Storage::AWSOptions do
 
     it 'works if aws_attributes is a Proc' do
       expect(uploader).to receive(:aws_attributes).and_return(
-        -> { { expires: 1.week.from_now.httpdate } }
+        -> { { expires: (Date.today + 7).httpdate } }
       )
 
       expect { options.write_options(file) }.to_not raise_error
