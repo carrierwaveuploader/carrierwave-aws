@@ -61,8 +61,8 @@ module CarrierWave
       end
 
       def copy_to(new_path)
-        bucket.object(new_path).copy_from(
-          "#{bucket.name}/#{file.key}",
+        file.copy_to(
+          bucket.object(new_path),
           aws_options.copy_options(self)
         )
       end
