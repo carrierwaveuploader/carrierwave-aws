@@ -144,4 +144,21 @@ describe CarrierWave::Storage::AWSFile do
       expect(aws_file.public_url).to eq 'http://example.com/uploads/images/jekyll%2Band%2Bhyde.txt'
     end
   end
+
+  describe '#copy_to' do
+    let(:new_s3_object) { instance_double('Aws::S3::Object') }
+
+    it 'copies file to target path' do
+      new_path = 'files/2/file.txt'
+      expect(bucket).to receive(:object).with(new_path).and_return(new_s3_object)
+      expect(file).to receive(:size).at_least(:once).and_return(1024)
+      expect(file).to(
+        receive(:copy_to).with(
+          new_s3_object,
+          aws_file.aws_options.copy_options(aws_file)
+        )
+      )
+      aws_file.copy_to new_path
+    end
+  end
 end
