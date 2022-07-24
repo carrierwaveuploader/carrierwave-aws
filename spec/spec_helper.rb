@@ -52,7 +52,12 @@ RSpec.configure do |config|
         access_key_id:     ENV['S3_ACCESS_KEY'],
         secret_access_key: ENV['S3_SECRET_ACCESS_KEY'],
         region:            ENV['AWS_REGION']
-      }
+      }.merge(
+        ENV['CI'] && {
+          endpoint: 'http://127.0.0.1:9000',
+          force_path_style: true
+        } || {}
+      )
     end
   end
 end

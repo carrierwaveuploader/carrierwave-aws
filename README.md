@@ -1,6 +1,6 @@
 # Carrierwave AWS Storage
 
-[![Build Status](https://travis-ci.org/sorentwo/carrierwave-aws.svg?branch=master)](https://travis-ci.org/sorentwo/carrierwave-aws)
+[![Test](https://github.com/carrierwaveuploader/carrierwave-aws/actions/workflows/test.yml/badge.svg)](https://github.com/carrierwaveuploader/carrierwave-aws/actions/workflows/test.yml)
 [![Code Climate](https://codeclimate.com/github/sorentwo/carrierwave-aws.svg)](https://codeclimate.com/github/sorentwo/carrierwave-aws)
 [![Gem Version](https://badge.fury.io/rb/carrierwave-aws.svg)](http://badge.fury.io/rb/carrierwave-aws)
 

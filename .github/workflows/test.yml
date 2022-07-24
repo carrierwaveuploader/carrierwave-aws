@@ -1,0 +1,36 @@
+name: Test
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: RSpec
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: [ '2.5', '2.6', '2.7', '3.0', '3.1', jruby ]
+    runs-on: ubuntu-20.04
+    env:
+      S3_BUCKET_NAME: test-bucket
+      S3_ACCESS_KEY: DummyAccessKey
+      S3_SECRET_ACCESS_KEY: DummySecret
+      AWS_REGION: us-east-1
+      JRUBY_OPTS: --debug
+    steps:
+    - name: Run minio
+      run: |
+        mkdir -p /tmp/data/test-bucket
+        docker run -d -p 9000:9000 --name minio \
+                   -e "MINIO_ACCESS_KEY=${{ env.S3_ACCESS_KEY }}" \
+                   -e "MINIO_SECRET_KEY=${{ env.S3_SECRET_ACCESS_KEY }}" \
+                   -v /tmp/data:/data \
+                   -v /tmp/config:/root/.minio \
+                   minio/minio server /data
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true
+    - name: Run RSpec
+      run: bundle exec rake spec
