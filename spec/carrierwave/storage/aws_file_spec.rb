@@ -86,7 +86,7 @@ describe CarrierWave::Storage::AWSFile do
       allow(uploader).to receive(:aws_authenticated_url_expiration) { 60 }
       allow(uploader).to receive(:asset_host_public) { false }
 
-      expect(file).to receive(:presigned_url).with(:get, expires_in: 60)
+      expect(file).to receive(:presigned_url).with(:get, {expires_in: 60})
 
       aws_file.url
     end
