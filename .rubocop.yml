@@ -3,11 +3,17 @@ AllCops:
     - "bin/*"
     - "tmp/**/*"
     - "vendor/**/*"
-  TargetRubyVersion: 2.3
+  NewCops: disable
+  TargetRubyVersion: 2.5
 
 Metrics/BlockLength:
   Exclude:
     - "spec/**/*"
+
+Naming/FileName:
+  Exclude:
+    - "lib/carrierwave-aws.rb"
+    - "spec/carrierwave-aws_spec.rb"
 
 Style/FrozenStringLiteralComment:
   EnforcedStyle: always
@@ -17,11 +23,6 @@ Style/FrozenStringLiteralComment:
     - "*.gemspec"
     - "spec/**/*"
 
-Style/FileName:
-  Exclude:
-    - "lib/carrierwave-aws.rb"
-    - "spec/carrierwave-aws_spec.rb"
-
 Style/IfUnlessModifier:
   Enabled: false
 
@@ -29,11 +30,11 @@ Style/IfUnlessModifier:
 Style/Documentation:
   Enabled: false
 
-# Extend self preserves private methods
-Style/ModuleFunction:
+Style/ExplicitBlockArgument:
   Enabled: false
 
-Style/IndentArray:
+# Extend self preserves private methods
+Style/ModuleFunction:
   Enabled: false
 
 Style/PercentLiteralDelimiters:

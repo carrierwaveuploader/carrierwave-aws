@@ -39,8 +39,8 @@ describe CarrierWave::Storage::AWSOptions do
       write_options = options.write_options(file)
 
       expect(write_options).to include(
-        acl:            'public-read',
-        content_type:   'image/png',
+        acl: 'public-read',
+        content_type: 'image/png',
         encryption_key: 'def'
       )
       expect(write_options[:body].path).to eq(file.path)

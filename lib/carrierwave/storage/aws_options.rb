@@ -42,6 +42,7 @@ module CarrierWave
       def aws_attributes
         attributes = uploader.aws_attributes
         return {} if attributes.nil?
+
         attributes.respond_to?(:call) ? attributes.call : attributes
       end
 
