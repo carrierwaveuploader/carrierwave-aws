@@ -4,5 +4,6 @@
 .env
 Gemfile.lock
 bin
+gemfiles/*.lock
 vendor
 uploads

@@ -12,6 +12,7 @@ Metrics/BlockLength:
 
 Naming/FileName:
   Exclude:
+    - "gemfiles/*"
     - "lib/carrierwave-aws.rb"
     - "spec/carrierwave-aws_spec.rb"
 

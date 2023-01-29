@@ -20,8 +20,9 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version = '>= 2.5.0'
 
   gem.add_dependency 'aws-sdk-s3', '~> 1.0'
-  gem.add_dependency 'carrierwave', '~> 2.0'
+  gem.add_dependency 'carrierwave', '>= 2.0', '< 4'
 
+  gem.add_development_dependency 'nokogiri'
   gem.add_development_dependency 'rake', '>= 10.0'
   gem.add_development_dependency 'rspec', '~> 3.6'
 end
