@@ -110,6 +110,18 @@ describe CarrierWave::Storage::AWSFile do
 
       expect(aws_file.url).to eq('http://example.com/files/1/file.txt')
     end
+
+    it 'accepts the asset_host given as a proc' do
+      allow(uploader).to receive(:aws_acl) { :'public-read' }
+      allow(uploader).to receive(:asset_host) do
+        proc do |file|
+          expect(file).to be_instance_of(CarrierWave::Storage::AWSFile)
+          'https://example.com'
+        end
+      end
+
+      expect(aws_file.url).to eq('https://example.com/files/1/file.txt')
+    end
   end
 
   describe '#store' do

@@ -86,7 +86,11 @@ module CarrierWave
 
       def public_url
         if uploader.asset_host
-          "#{uploader.asset_host}/#{uri_path}"
+          if uploader.asset_host.respond_to? :call
+            "#{uploader.asset_host.call(self)}/#{uri_path}"
+          else
+            "#{uploader.asset_host}/#{uri_path}"
+          end
         else
           file.public_url.to_s
         end
