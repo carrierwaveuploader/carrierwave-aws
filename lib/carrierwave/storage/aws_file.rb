@@ -81,16 +81,16 @@ module CarrierWave
       end
 
       def authenticated_url(options = {})
+        if asset_host && asset_host == bucket.name
+          # Can't use https, since plain S3 doesn't support custom TLS certificates
+          options = options.reverse_merge(secure: false, virtual_host: true)
+        end
         file.presigned_url(:get, aws_options.expiration_options(options))
       end
 
       def public_url
-        if uploader.asset_host
-          if uploader.asset_host.respond_to? :call
-            "#{uploader.asset_host.call(self)}/#{uri_path}"
-          else
-            "#{uploader.asset_host}/#{uri_path}"
-          end
+        if asset_host
+          "#{asset_host}/#{uri_path}"
         else
           file.public_url.to_s
         end
@@ -122,6 +122,14 @@ module CarrierWave
 
       def public?
         uploader.aws_acl.to_s == 'public-read' || uploader.asset_host_public
+      end
+
+      def asset_host
+        if uploader.asset_host.respond_to? :call
+          uploader.asset_host.call(self)
+        else
+          uploader.asset_host
+        end
       end
     end
   end

@@ -73,12 +73,40 @@ describe 'Storing Files', type: :feature do
     image.close
   end
 
-  it 'gets a url for remote files' do
+  it 'gets a public url for remote files' do
     instance.store!(image)
     instance.retrieve_from_store!('image.png')
 
     expect(instance.url).to include(ENV['S3_BUCKET_NAME'])
     expect(instance.url).to include(instance.path)
+
+    image.close
+    instance.file.delete
+  end
+
+  it 'gets a private url for remote files' do
+    instance.aws_acl = 'private'
+    instance.store!(image)
+    instance.retrieve_from_store!('image.png')
+
+    expect(instance.url).to include(ENV['S3_BUCKET_NAME'])
+    expect(instance.url).to include(instance.path)
+    expect(instance.url).to include('X-Amz-Signature=')
+
+    image.close
+    instance.file.delete
+  end
+
+  it 'respects asset_host for private urls' do
+    allow(instance).to receive(:asset_host).and_return(ENV['S3_BUCKET_NAME'])
+    instance.aws_acl = 'private'
+    instance.store!(image)
+    instance.retrieve_from_store!('image.png')
+
+    expect(URI.parse(instance.url).scheme).to eq 'http'
+    expect(URI.parse(instance.url).hostname).to eq ENV['S3_BUCKET_NAME']
+    expect(instance.url).to include(instance.path)
+    expect(instance.url).to include('X-Amz-Signature=')
 
     image.close
     instance.file.delete
