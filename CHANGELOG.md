@@ -6,7 +6,7 @@
 * Added: Support S3 CNAME-style virtual host access for private URLs
 * Added: Support dynamic asset host
 * Added: Support CarrierWave 3.0
-* Changed: Update implementation of `AWSFile#copy_to` to use `S3Object#copy_to` API [Parker Selbert]
+* Changed: Update implementation of `AWSFile#copy_to` to use `S3Object#copy_to` API [Yingbai He]
 
 ## Version 1.5.0 2020-04-01
 
