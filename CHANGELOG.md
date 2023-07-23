@@ -1,5 +1,13 @@
 ## Unreleased
 
+## Version 1.6.0 2023-07-23
+
+* Added: Support setting #aws_acl to nil for bucket-level ACL compatibility
+* Added: Support S3 CNAME-style virtual host access for private URLs
+* Added: Support dynamic asset host
+* Added: Support CarrierWave 3.0
+* Changed: Update implementation of `AWSFile#copy_to` to use `S3Object#copy_to` API [Parker Selbert]
+
 ## Version 1.5.0 2020-04-01
 
 * Fix Setting `asset_host_public`, which was removed in a recent version of
