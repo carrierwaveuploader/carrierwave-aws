@@ -40,6 +40,8 @@ module CarrierWave
       end
 
       def self.normalized_acl(acl)
+        return nil if acl.nil?
+
         normalized = acl.to_s.downcase.sub('_', '-')
 
         unless ACCEPTED_ACL.include?(normalized)

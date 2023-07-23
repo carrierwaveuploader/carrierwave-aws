@@ -20,12 +20,19 @@ describe CarrierWave::Uploader::Base do
   end
 
   describe '#aws_acl' do
-    it 'allows known acess control values' do
+    it 'allows known access control values' do
       expect do
         uploader.aws_acl = 'private'
         uploader.aws_acl = 'public-read'
         uploader.aws_acl = 'authenticated-read'
       end.not_to raise_exception
+    end
+
+    it 'allows nil' do
+      uploader.aws_acl = 'public-read'
+      expect do
+        uploader.aws_acl = nil
+      end.to change { uploader.aws_acl }.from('public-read').to(nil)
     end
 
     it 'does not allow unknown control values' do
