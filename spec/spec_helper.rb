@@ -43,10 +43,10 @@ RSpec.configure do |config|
 
   config.before(:all, type: :feature) do
     CarrierWave.configure do |cw_config|
-      cw_config.storage       = :aws
+      cw_config.storage = :aws
       cw_config.cache_storage = :aws
-      cw_config.aws_bucket    = ENV['S3_BUCKET_NAME']
-      cw_config.aws_acl       = :'public-read'
+      cw_config.aws_bucket = ENV['S3_BUCKET_NAME']
+      cw_config.aws_acl = :'public-read'
 
       cw_config.aws_credentials = {
         access_key_id: ENV['S3_ACCESS_KEY'],

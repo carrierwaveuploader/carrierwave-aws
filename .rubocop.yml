@@ -1,3 +1,8 @@
+plugins:
+  - rubocop-performance
+  - rubocop-rake
+  - rubocop-rspec
+
 AllCops:
   Exclude:
     - "bin/*"
@@ -19,6 +24,25 @@ Naming/FileName:
     - "lib/carrierwave-aws.rb"
     - "spec/carrierwave-aws_spec.rb"
 
+RSpec/ExampleLength:
+  Max: 15
+
+RSpec/MultipleExpectations:
+  Max: 5
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 10
+
+RSpec/SpecFilePathFormat:
+  Enabled: false
+
+# Documentation is coming
+Style/Documentation:
+  Enabled: false
+
+Style/ExplicitBlockArgument:
+  Enabled: false
+
 Style/FrozenStringLiteralComment:
   EnforcedStyle: always
   Exclude:
@@ -30,18 +54,6 @@ Style/FrozenStringLiteralComment:
 Style/IfUnlessModifier:
   Enabled: false
 
-# Documentation is coming
-Style/Documentation:
-  Enabled: false
-
-Style/ExplicitBlockArgument:
-  Enabled: false
-
 # Extend self preserves private methods
 Style/ModuleFunction:
   Enabled: false
-
-Style/PercentLiteralDelimiters:
-  PreferredDelimiters:
-    '%w': "[]"
-    '%W': "[]"

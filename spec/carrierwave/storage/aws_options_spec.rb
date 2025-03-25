@@ -14,7 +14,7 @@ describe CarrierWave::Storage::AWSOptions do
   end
 
   let(:uploader) { uploader_klass.new }
-  let(:options)  { CarrierWave::Storage::AWSOptions.new(uploader) }
+  let(:options) { described_class.new(uploader) }
 
   describe '#read_options' do
     it 'uses the uploader aws_read_options' do
@@ -38,40 +38,38 @@ describe CarrierWave::Storage::AWSOptions do
 
       write_options = options.write_options(file)
 
-      expect(write_options).to include(
-        acl: 'public-read',
-        content_type: 'image/png',
-        encryption_key: 'def'
-      )
+      expect(write_options).to include(acl: 'public-read', content_type: 'image/png', encryption_key: 'def')
       expect(write_options[:body].path).to eq(file.path)
     end
 
     it 'works if aws_attributes is nil' do
-      expect(uploader).to receive(:aws_attributes) { nil }
+      allow(uploader).to receive(:aws_attributes).and_return(nil)
 
-      expect { options.write_options(file) }.to_not raise_error
+      expect { options.write_options(file) }.not_to raise_error
+
+      expect(uploader).to have_received(:aws_attributes)
     end
 
     it 'works if aws_attributes is a Proc' do
-      expect(uploader).to receive(:aws_attributes).and_return(
-        -> { { expires: (Date.today + 7).httpdate } }
-      )
+      allow(uploader).to receive(:aws_attributes).and_return(-> { { expires: (Date.today + 7).httpdate } })
 
-      expect { options.write_options(file) }.to_not raise_error
+      expect { options.write_options(file) }.not_to raise_error
+
+      expect(uploader).to have_received(:aws_attributes)
     end
 
     it 'works if aws_write_options is nil' do
-      expect(uploader).to receive(:aws_write_options) { nil }
+      allow(uploader).to receive(:aws_write_options).and_return(nil)
 
-      expect { options.write_options(file) }.to_not raise_error
+      expect { options.write_options(file) }.not_to raise_error
+
+      expect(uploader).to have_received(:aws_write_options)
     end
   end
 
   describe '#expiration_options' do
     it 'extracts the expiration value' do
-      expect(options.expiration_options).to eq(
-        expires_in: uploader.aws_authenticated_url_expiration
-      )
+      expect(options.expiration_options).to eq(expires_in: uploader.aws_authenticated_url_expiration)
     end
 
     it 'allows expiration to be overridden' do

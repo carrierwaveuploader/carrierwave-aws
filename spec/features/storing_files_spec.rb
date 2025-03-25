@@ -1,12 +1,10 @@
 require 'spec_helper'
 
 describe 'Storing Files', type: :feature do
-  let(:image)    { File.open('spec/fixtures/image.png', 'r') }
+  let(:image) { File.open('spec/fixtures/image.png', 'r') }
   let(:instance) { FeatureUploader.new }
 
-  before do
-    instance.aws_acl = 'public-read'
-  end
+  before { instance.aws_acl = 'public-read' }
 
   it 'uploads the file to the configured bucket' do
     instance.store!(image)
@@ -14,7 +12,7 @@ describe 'Storing Files', type: :feature do
 
     expect(instance.file.size).to eq(image.size)
     expect(instance.file.read).to eq(image.read)
-    expect(instance.file.read).to eq(instance.file.read)
+    expect(instance.file.read).to eq(instance.file.read) # rubocop:disable RSpec/IdenticalEqualityAssertion
 
     image.close
     instance.file.delete
@@ -34,7 +32,7 @@ describe 'Storing Files', type: :feature do
 
     expect(instance.file.size).to eq(image.size)
     expect(instance.file.read).to eq(image.read)
-    expect(instance.file.read).to eq(instance.file.read)
+    expect(instance.file.read).to eq(instance.file.read) # rubocop:disable RSpec/IdenticalEqualityAssertion
 
     image.close
     instance.file.delete
@@ -64,11 +62,11 @@ describe 'Storing Files', type: :feature do
     instance.store!(image)
     instance.retrieve_from_store!('image.png')
 
-    expect(instance.file.exists?).to be_truthy
+    expect(instance.file).to exist
 
     instance.file.delete
 
-    expect(instance.file.exists?).to be_falsy
+    expect(instance.file).not_to exist
 
     image.close
   end
@@ -103,8 +101,8 @@ describe 'Storing Files', type: :feature do
     instance.store!(image)
     instance.retrieve_from_store!('image.png')
 
-    expect(URI.parse(instance.url).scheme).to eq 'http'
-    expect(URI.parse(instance.url).hostname).to eq ENV['S3_BUCKET_NAME']
+    expect(URI.parse(instance.url).scheme).to eq('http')
+    expect(URI.parse(instance.url).hostname).to eq(ENV['S3_BUCKET_NAME'])
     expect(instance.url).to include(instance.path)
     expect(instance.url).to include('X-Amz-Signature=')
 
@@ -134,7 +132,7 @@ describe 'Storing Files', type: :feature do
     instance.retrieve_from_store!('image.png')
     expect(instance.file.size).to eq(image.size)
     expect(instance.file.read).to eq(image.read)
-    expect(instance.file.read).to eq(instance.file.read)
+    expect(instance.file.read).to eq(instance.file.read) # rubocop:disable RSpec/IdenticalEqualityAssertion
 
     image.close
     instance.file.delete

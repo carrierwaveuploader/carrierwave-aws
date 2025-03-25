@@ -11,9 +11,9 @@ module CarrierWave
       delegate :content_type, :delete, :exists?, to: :file
 
       def initialize(uploader, connection, path)
-        @uploader    = uploader
-        @connection  = connection
-        @path        = path
+        @uploader = uploader
+        @connection = connection
+        @path = path
         @aws_options = AWSOptions.new(uploader)
       end
 
