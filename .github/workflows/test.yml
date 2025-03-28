@@ -34,23 +34,23 @@ jobs:
       BUNDLE_GEMFILE: ${{ matrix.gemfile }}
       JRUBY_OPTS: --debug
     steps:
-    - name: Run minio
-      run: |
-        mkdir -p /tmp/data/test-bucket
-        docker run -d -p 9000:9000 --name minio \
-                   -e "MINIO_ACCESS_KEY=${{ env.S3_ACCESS_KEY }}" \
-                   -e "MINIO_SECRET_KEY=${{ env.S3_SECRET_ACCESS_KEY }}" \
-                   -v /tmp/data:/data \
-                   -v /tmp/config:/root/.minio \
-                   minio/minio server /data
-    - uses: actions/checkout@v4
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-        bundler-cache: true
-    - name: Run RSpec
-      run: bundle exec rake spec
+      - name: Run minio
+        run: |
+          mkdir -p /tmp/data/test-bucket
+          docker run -d -p 9000:9000 --name minio \
+                    -e "MINIO_ACCESS_KEY=${{ env.S3_ACCESS_KEY }}" \
+                    -e "MINIO_SECRET_KEY=${{ env.S3_SECRET_ACCESS_KEY }}" \
+                    -v /tmp/data:/data \
+                    -v /tmp/config:/root/.minio \
+                    minio/minio server /data
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Run RSpec
+        run: bundle exec rake spec
 
   rubocop:
     name: RuboCop
@@ -60,7 +60,9 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.4'
+          ruby-version: 'ruby-head'
           bundler-cache: true
       - name: Run check
+        env:
+          RUBOCOP_FORMAT: github
         run: bundle exec rake rubocop
