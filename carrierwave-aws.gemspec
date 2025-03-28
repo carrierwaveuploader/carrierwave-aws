@@ -3,26 +3,34 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 require 'carrierwave/aws/version'
 
-Gem::Specification.new do |gem|
-  gem.name = 'carrierwave-aws'
-  gem.version = Carrierwave::AWS::VERSION
-  gem.authors = ['Parker Selbert']
-  gem.email = ['parker@sorentwo.com']
-  gem.homepage = 'https://github.com/sorentwo/carrierwave-aws'
-  gem.description = 'Use aws-sdk for S3 support in CarrierWave'
-  gem.summary = 'Native aws-sdk support for S3 in CarrierWave'
-  gem.license = 'MIT'
+Gem::Specification.new do |spec|
+  spec.name = 'carrierwave-aws'
+  spec.version = Carrierwave::AWS::VERSION
+  spec.authors = ['Parker Selbert']
+  spec.email = ['parker@sorentwo.com']
+  spec.description = 'Use aws-sdk for S3 support in CarrierWave'
+  spec.summary = 'Native aws-sdk support for S3 in CarrierWave'
+  spec.license = 'MIT'
 
-  gem.files = `git ls-files -z lib spec`.split("\x0")
-  gem.test_files = gem.files.grep(%r{^(spec)/})
-  gem.require_paths = ['lib']
+  github_root_uri = 'https://github.com/carrierwaveuploader/carrierwave-aws'
+  spec.homepage = "#{github_root_uri}/tree/v#{spec.version}"
+  spec.metadata = {
+    'homepage_uri' => spec.homepage,
+    'source_code_uri' => spec.homepage,
+    'changelog_uri' => "#{github_root_uri}/blob/v#{spec.version}/CHANGELOG.md",
+    'bug_tracker_uri' => "#{github_root_uri}/issues",
+    'documentation_uri' => "https://rubydoc.info/gems/#{spec.name}/#{spec.version}"
+  }
 
-  gem.required_ruby_version = '>= 2.5.0'
+  spec.files = `git ls-files -z lib spec`.split("\x0")
+  spec.test_files = spec.files.grep(%r{^(spec)/})
+  spec.require_paths = ['lib']
 
-  gem.add_dependency 'aws-sdk-s3', '~> 1.0'
-  gem.add_dependency 'carrierwave', '>= 2.0', '< 4'
+  spec.required_ruby_version = '>= 2.5.0'
 
-  gem.add_development_dependency 'nokogiri'
-  gem.add_development_dependency 'rake', '>= 10.0'
-  gem.add_development_dependency 'rspec', '~> 3.6'
+  spec.add_dependency 'aws-sdk-s3', '~> 1.0'
+  spec.add_dependency 'carrierwave', '>= 2.0', '< 4'
+
+  spec.add_development_dependency 'nokogiri'
+  spec.add_development_dependency 'rspec', '~> 3.6'
 end
