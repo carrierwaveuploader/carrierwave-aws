@@ -1,13 +1,9 @@
 require 'spec_helper'
 
 describe CarrierWave::Uploader::Base do
-  let(:uploader) do
-    Class.new(CarrierWave::Uploader::Base)
-  end
+  let(:uploader) { Class.new(described_class) }
 
-  let(:derived_uploader) do
-    Class.new(uploader)
-  end
+  let(:derived_uploader) { Class.new(uploader) }
 
   it 'inserts aws as a known storage engine' do
     uploader.configure do |config|
@@ -32,13 +28,13 @@ describe CarrierWave::Uploader::Base do
       uploader.aws_acl = 'public-read'
       expect do
         uploader.aws_acl = nil
-      end.to change { uploader.aws_acl }.from('public-read').to(nil)
+      end.to change(uploader, :aws_acl).from('public-read').to(nil)
     end
 
     it 'does not allow unknown control values' do
       expect do
         uploader.aws_acl = 'everybody'
-      end.to raise_exception(CarrierWave::Uploader::Base::ConfigurationError)
+      end.to raise_exception(described_class::ConfigurationError)
     end
 
     it 'normalizes the set value' do
@@ -98,8 +94,7 @@ describe CarrierWave::Uploader::Base do
     it 'does not allow signer with unknown api' do
       signer_proc = ->(_unsigned) {}
 
-      expect { uploader.aws_signer = signer_proc }
-        .to raise_exception(CarrierWave::Uploader::Base::ConfigurationError)
+      expect { uploader.aws_signer = signer_proc }.to raise_exception(described_class::ConfigurationError)
     end
 
     it 'can be overridden on an instance level' do
@@ -153,16 +148,16 @@ describe CarrierWave::Uploader::Base do
       uploader.asset_host_public = true
       instance.asset_host_public = false
 
-      expect(uploader.asset_host_public).to eq(true)
-      expect(instance.asset_host_public).to eq(false)
+      expect(uploader.asset_host_public).to be(true)
+      expect(instance.asset_host_public).to be(false)
     end
 
     it 'can be looked up from superclass' do
       uploader.asset_host_public = true
       instance = derived_uploader.new
 
-      expect(derived_uploader.asset_host_public).to eq(true)
-      expect(instance.asset_host_public).to eq(true)
+      expect(derived_uploader.asset_host_public).to be(true)
+      expect(instance.asset_host_public).to be(true)
     end
 
     it 'can be overridden on a class level' do
@@ -170,10 +165,10 @@ describe CarrierWave::Uploader::Base do
       derived_uploader.asset_host_public = false
 
       base = uploader.new
-      expect(base.asset_host_public).to eq(true)
+      expect(base.asset_host_public).to be(true)
 
       instance = derived_uploader.new
-      expect(instance.asset_host_public).to eq(false)
+      expect(instance.asset_host_public).to be(false)
     end
 
     it 'can be set with the configure block' do
@@ -181,7 +176,7 @@ describe CarrierWave::Uploader::Base do
         config.asset_host_public = true
       end
 
-      expect(uploader.asset_host_public).to eq(true)
+      expect(uploader.asset_host_public).to be(true)
     end
   end
 end

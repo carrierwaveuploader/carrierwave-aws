@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'Copying Files', type: :feature do
-  let(:image)    { File.open('spec/fixtures/image.png', 'r') }
+  let(:image) { File.open('spec/fixtures/image.png', 'r') }
   let(:original) { FeatureUploader.new }
 
   it 'copies an existing file to the specified path' do

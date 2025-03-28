@@ -9,7 +9,7 @@ describe CarrierWave::Support::UriFilename do
       }
 
       samples.each do |uri, name|
-        expect(CarrierWave::Support::UriFilename.filename(uri)).to eq(name)
+        expect(described_class.filename(uri)).to eq(name)
       end
     end
   end
