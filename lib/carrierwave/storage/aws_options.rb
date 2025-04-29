@@ -3,7 +3,10 @@
 module CarrierWave
   module Storage
     class AWSOptions
-      MULTIPART_TRESHOLD = 15 * 1024 * 1024
+      MULTIPART_THRESHOLD = 15 * 1024 * 1024
+
+      # Backward compatibility
+      MULTIPART_TRESHOLD = MULTIPART_THRESHOLD
 
       attr_reader :uploader
 
@@ -26,7 +29,7 @@ module CarrierWave
       def move_options(file)
         {
           acl: uploader.aws_acl,
-          multipart_copy: file.size >= MULTIPART_TRESHOLD
+          multipart_copy: file.size >= MULTIPART_THRESHOLD
         }.merge(aws_attributes).merge(aws_write_options)
       end
       alias copy_options move_options
