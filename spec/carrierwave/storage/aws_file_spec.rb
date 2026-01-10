@@ -141,9 +141,24 @@ describe CarrierWave::Storage::AWSFile do
         CarrierWave::SanitizedFile.new('spec/fixtures/image.png')
       end
 
-      it 'uploads the file using with multipart support' do
-        expect(file).to(receive(:upload_file)
-                              .with(new_file.path, an_instance_of(Hash)))
+      it 'uploads the file using TransferManager' do
+        transfer_manager = instance_double('Aws::S3::TransferManager')
+        client = instance_double('Aws::S3::Client')
+
+        allow(bucket).to receive(:name).and_return('example-com')
+        allow(connection).to receive(:client).and_return(client)
+        allow(Aws::S3::TransferManager).to receive(:new).with(client: client).and_return(transfer_manager)
+
+        expect(transfer_manager).to receive(:upload_file).with(
+          new_file.path,
+          bucket: 'example-com',
+          key: path,
+          acl: :'public-read',
+          content_type: new_file.content_type,
+          encryption_key: 'def',
+          multipart_threshold: CarrierWave::Storage::AWSOptions::MULTIPART_THRESHOLD
+        )
+
         aws_file.store(new_file)
       end
     end

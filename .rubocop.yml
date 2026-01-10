@@ -11,7 +11,7 @@ Metrics/BlockLength:
     - "spec/**/*"
 
 Metrics/ClassLength:
-  Max: 102
+  Max: 105
 
 Naming/FileName:
   Exclude:
