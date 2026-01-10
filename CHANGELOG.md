@@ -1,5 +1,10 @@
 ## Unreleased
 
+## Version 1.6.1 2026-01-10
+
+* Fixed: Replace deprecated `Aws::S3::Object#upload_file` with `TransferManager` if available [Jules, Foto]
+* Fixed: Correct typo `MULTIPART_TRESHOLD` to `MULTIPART_THRESHOLD` [Naoki Hayashida]
+
 ## Version 1.6.0 2023-07-23
 
 * Added: Support setting #aws_acl to nil for bucket-level ACL compatibility
