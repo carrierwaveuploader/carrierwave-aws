@@ -43,7 +43,7 @@ jobs:
                    -v /tmp/data:/data \
                    -v /tmp/config:/root/.minio \
                    minio/minio server /data
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
@@ -56,7 +56,7 @@ jobs:
     name: RuboCop
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
