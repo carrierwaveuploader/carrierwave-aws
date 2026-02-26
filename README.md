@@ -28,6 +28,7 @@ gem 'carrierwave-aws'
 ```
 
 Run the bundle command from your shell to install it:
+
 ```bash
 bundle install
 ```
@@ -89,12 +90,13 @@ CarrierWave.configure do |config|
   # config.asset_host_public = true
 end
 ```
+
 ### Custom options for S3 endpoint
 
 If you are using a non-standard endpoint for S3 service (eg: Swiss-based Exoscale S3) you can override it like this
 
 ```ruby
-    config.aws_credentials[:endpoint] = 'my.custom.s3.service.com'
+  config.aws_credentials[:endpoint] = 'my.custom.s3.service.com'
 ```
 
 ### Custom options for AWS URLs
@@ -103,8 +105,8 @@ If you have a custom uploader that specifies additional headers for each URL,
 please try the following example:
 
 ```ruby
-class MyUploader < Carrierwave::Uploader::Base
-  # Storage configuration within the uploader supercedes the global CarrierWave
+class MyUploader < CarrierWave::Uploader::Base
+  # Storage configuration within the uploader supersedes the global CarrierWave
   # config, so either comment out `storage :file`, or remove that line, otherwise
   # AWS will not be used.
   storage :aws
@@ -117,9 +119,9 @@ class MyUploader < Carrierwave::Uploader::Base
 end
 ```
 
-### Configure the role for bucket access 
+### Configure the role for bucket access
 
-The IAM role accessing the AWS bucket specified when configuring `CarrierWave` needs to be given access permissions to that bucket. Apart from the obvious permissions required depending on what you want to do (read, write, delete…), you need to grant the `s3:PutObjectAcl` permission ([a permission to manipulate single objects´ access permissions](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTacl.html)) lest you receive an `AccessDenied` error. The policy for the role will look something like this:
+The IAM role accessing the AWS bucket specified when configuring `CarrierWave` needs to be given access permissions to that bucket. Apart from the obvious permissions required depending on what you want to do (read, write, delete…), you need to grant the `s3:PutObjectAcl` permission ([a permission to manipulate single objects' access permissions](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTacl.html)) lest you receive an `AccessDenied` error. The policy for the role will look something like this:
 
 ```yaml
 PolicyDocument:
@@ -147,8 +149,8 @@ simply comment out that line, as in the following example, or remove that
 specific line.
 
 ```ruby
-class MyUploader < Carrierwave::Uploader::Base
-  # Storage configuration within the uploader supercedes the global CarrierWave
+class MyUploader < CarrierWave::Uploader::Base
+  # Storage configuration within the uploader supersedes the global CarrierWave
   # config, so adjust accordingly...
 
   # Choose what kind of storage to use for this uploader:
@@ -156,21 +158,18 @@ class MyUploader < Carrierwave::Uploader::Base
   # storage :fog
   storage :aws
 
-
   # More comments below in your file....
 end
 ```
 
 Another item particular to fog, you may have `url(query: {'my-header': 'my-value'})`.
-With `carrierwave-aws` the `query` part becomes obsolete, just use a hash of
-headers. Please read [usage][#Usage] for a more detailed explanation about
-configuration.
+With `carrierwave-aws` the `query` part becomes obsolete, just use a hash of headers.
+Please read [usage](#usage) for a more detailed explanation about configuration.
 
 ## Contributing
 
-In order to run the integration specs you will need to configure some
-environment variables. A sample file is provided as `.env.sample`. Copy it over
-and plug in the appropriate values.
+In order to run the integration specs you will need to configure some environment variables.
+A sample file is provided as `.env.sample`. Copy it over and plug in the appropriate values.
 
 ```bash
 cp .env.sample .env
