@@ -30,7 +30,7 @@ module CarrierWave
         {
           acl: uploader.aws_acl,
           multipart_copy: file.size >= MULTIPART_THRESHOLD
-        }.merge(aws_attributes).merge(aws_write_options)
+        }.merge(aws_attributes).merge(aws_write_options).merge(aws_move_options)
       end
       alias copy_options move_options
 
@@ -55,6 +55,10 @@ module CarrierWave
 
       def aws_write_options
         uploader.aws_write_options || {}
+      end
+
+      def aws_move_options
+        uploader.aws_move_options || {}
       end
     end
   end

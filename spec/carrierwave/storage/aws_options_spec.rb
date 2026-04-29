@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CarrierWave::Storage::AWSOptions do
   uploader_klass = Class.new do
-    attr_accessor :aws_attributes, :aws_read_options, :aws_write_options
+    attr_accessor :aws_attributes, :aws_read_options, :aws_write_options, :aws_move_options
 
     def aws_acl
       'public-read'
@@ -64,6 +64,42 @@ describe CarrierWave::Storage::AWSOptions do
       expect(uploader).to receive(:aws_write_options) { nil }
 
       expect { options.write_options(file) }.to_not raise_error
+    end
+  end
+
+  describe '#move_options' do
+    let(:file) { CarrierWave::SanitizedFile.new('spec/fixtures/image.png') }
+
+    it 'includes all access and file options' do
+      uploader.aws_move_options = { tagging_directive: 'REPLACE' }
+
+      move_options = options.move_options(file)
+
+      expect(move_options).to include(
+        acl: 'public-read',
+        multipart_copy: false,
+        tagging_directive: 'REPLACE'
+      )
+    end
+
+    it 'works if aws_attributes is nil' do
+      expect(uploader).to receive(:aws_attributes) { nil }
+
+      expect { options.move_options(file) }.to_not raise_error
+    end
+
+    it 'works if aws_attributes is a Proc' do
+      expect(uploader).to receive(:aws_attributes).and_return(
+        -> { { expires: (Date.today + 7).httpdate } }
+      )
+
+      expect { options.move_options(file) }.to_not raise_error
+    end
+
+    it 'works if aws_move_options is nil' do
+      expect(uploader).to receive(:aws_move_options) { nil }
+
+      expect { options.move_options(file) }.to_not raise_error
     end
   end
 
