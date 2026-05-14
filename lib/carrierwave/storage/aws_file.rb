@@ -59,7 +59,7 @@ module CarrierWave
           new_file.move_to(path)
         elsif Aws::S3.const_defined?(:TransferManager)
           options = aws_options.write_options(new_file).except(:body)
-          options[:multipart_threshold] = AWSOptions::MULTIPART_THRESHOLD
+          options[:multipart_threshold] ||= AWSOptions::MULTIPART_THRESHOLD
           Aws::S3::TransferManager.new(client: connection.client).upload_file(new_file.path, bucket: bucket.name,
                                                                                              key: path, **options)
         else
