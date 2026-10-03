@@ -74,15 +74,9 @@ CarrierWave.configure do |config|
   #   Aws::CF::Signer.sign_url(unsigned_url, options)
   # end
 
-  # Optional: Define custom options for S3 read operations.
-  # config.aws_read_options = {
-  #   if_modified_since: 1.day.ago # Example: Only retrieve files modified since yesterday
-  # }
-
-  # Optional: Define custom options for S3 write operations.
-  # config.aws_write_options = {
-  #   storage_class: 'STANDARD_IA' # Use infrequent access storage class
-  # }
+  # Optional: Extra options passed through to S3 GetObject / PutObject.
+  # config.aws_read_options  = { request_payer: 'requester' }
+  # config.aws_write_options = { storage_class: 'STANDARD_IA' }
 
   # Optional: Set asset_host_public to true when you want to serve files through
   # a CDN or other asset host that requires public URLs, but you don't want to
