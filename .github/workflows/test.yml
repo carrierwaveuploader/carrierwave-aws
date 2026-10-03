@@ -34,15 +34,19 @@ jobs:
       BUNDLE_GEMFILE: ${{ matrix.gemfile }}
       JRUBY_OPTS: --debug
     steps:
-    - name: Run minio
+    - name: Run RustFS
       run: |
-        mkdir -p /tmp/data/test-bucket
-        docker run -d -p 9000:9000 --name minio \
-                   -e "MINIO_ACCESS_KEY=${{ env.S3_ACCESS_KEY }}" \
-                   -e "MINIO_SECRET_KEY=${{ env.S3_SECRET_ACCESS_KEY }}" \
-                   -v /tmp/data:/data \
-                   -v /tmp/config:/root/.minio \
-                   minio/minio server /data
+        docker run -d -p 9000:9000 --name rustfs \
+                   -e "RUSTFS_ACCESS_KEY=${{ env.S3_ACCESS_KEY }}" \
+                   -e "RUSTFS_SECRET_KEY=${{ env.S3_SECRET_ACCESS_KEY }}" \
+                   rustfs/rustfs:latest /data
+        for i in $(seq 1 30); do
+          if AWS_ACCESS_KEY_ID=${{ env.S3_ACCESS_KEY }} AWS_SECRET_ACCESS_KEY=${{ env.S3_SECRET_ACCESS_KEY }} \
+             aws --endpoint-url http://127.0.0.1:9000 s3 mb s3://${{ env.S3_BUCKET_NAME }}; then
+            break
+          fi
+          sleep 2
+        done
     - uses: actions/checkout@v6
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
