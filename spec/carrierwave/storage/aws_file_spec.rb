@@ -14,7 +14,8 @@ describe CarrierWave::Storage::AWSFile do
            asset_host: nil,
            aws_signer: nil,
            aws_read_options: { encryption_key: 'abc' },
-           aws_write_options: { encryption_key: 'def' })
+           aws_write_options: { encryption_key: 'def' },
+           aws_move_options: { tagging_directive: 'REPLACE' })
   end
 
   subject(:aws_file) do

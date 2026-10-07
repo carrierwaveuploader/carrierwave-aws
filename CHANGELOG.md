@@ -1,5 +1,7 @@
 ## Unreleased
 
+* Add `aws_move_options` [Gerjan Stokkink]
+
 ## Version 1.6.1 2026-01-10
 
 * Fixed: Replace deprecated `Aws::S3::Object#upload_file` with `TransferManager` if available [Jules, Foto]

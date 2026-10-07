@@ -27,6 +27,7 @@ module CarrierWave
       add_config :aws_bucket
       add_config :aws_read_options
       add_config :aws_write_options
+      add_config :aws_move_options
       add_config :aws_acl
       add_config :aws_signer
       add_config :asset_host_public
