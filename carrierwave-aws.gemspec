@@ -13,8 +13,7 @@ Gem::Specification.new do |gem|
   gem.summary = 'Native aws-sdk support for S3 in CarrierWave'
   gem.license = 'MIT'
 
-  gem.files = `git ls-files -z lib spec`.split("\x0")
-  gem.test_files = gem.files.grep(%r{^(spec)/})
+  gem.files = `git ls-files -z lib`.split("\x0")
   gem.require_paths = ['lib']
 
   gem.required_ruby_version = '>= 2.5.0'
