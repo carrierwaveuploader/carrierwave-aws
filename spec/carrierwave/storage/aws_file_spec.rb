@@ -141,12 +141,14 @@ describe CarrierWave::Storage::AWSFile do
         CarrierWave::SanitizedFile.new('spec/fixtures/image.png')
       end
 
-      it 'uploads the file using TransferManager' do
-        client = instance_double('Aws::S3::Client')
+      let(:client) { instance_double('Aws::S3::Client') }
 
+      before do
         allow(bucket).to receive(:name).and_return('example-com')
         allow(connection).to receive(:client).and_return(client)
+      end
 
+      it 'uploads the file using TransferManager' do
         if Aws::S3.const_defined?(:TransferManager)
           transfer_manager = instance_double('Aws::S3::TransferManager')
           allow(Aws::S3::TransferManager).to receive(:new).with(client: client).and_return(transfer_manager)
@@ -172,6 +174,38 @@ describe CarrierWave::Storage::AWSFile do
         end
 
         aws_file.store(new_file)
+      end
+
+      if Aws::S3.const_defined?(:TransferManager)
+        context "multipart_threshold option is returned from uploader's aws_write_option method" do
+          let(:uploader) do
+             double(:uploader,
+                    aws_bucket: 'example-com',
+                    aws_acl: :'public-read',
+                    aws_attributes: {},
+                    asset_host: nil,
+                    aws_signer: nil,
+                    aws_read_options: { encryption_key: 'abc' },
+                    aws_write_options: { encryption_key: 'def', multipart_threshold: 1 })
+          end
+
+          it 'passes that option to TransferManager' do
+            transfer_manager = instance_double('Aws::S3::TransferManager')
+            allow(Aws::S3::TransferManager).to receive(:new).with(client: client).and_return(transfer_manager)
+
+            expect(transfer_manager).to receive(:upload_file).with(
+              new_file.path,
+              bucket: 'example-com',
+              key: path,
+              acl: :'public-read',
+              content_type: new_file.content_type,
+              encryption_key: 'def',
+              multipart_threshold: 1
+            )
+
+            aws_file.store(new_file)
+          end
+        end
       end
     end
   end
